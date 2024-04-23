@@ -15,9 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-
 @ExtendWith(CategoryExtension.class)
 @ExtendWith(SpendExtension.class)
 public class SpendingTest {
