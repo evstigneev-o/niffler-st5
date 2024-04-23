@@ -6,7 +6,6 @@ import guru.qa.niffler.jupiter.annotation.GenerateCategory;
 import guru.qa.niffler.jupiter.annotation.GenerateSpend;
 import guru.qa.niffler.jupiter.extension.CategoryExtension;
 import guru.qa.niffler.jupiter.extension.SpendExtension;
-import guru.qa.niffler.model.CategoryJson;
 import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
 import guru.qa.niffler.pages.MainPage;
@@ -43,13 +42,6 @@ public class SpendingTest {
                 .openLoginPage()
                 .signIn(USERNAME, PASSWORD);
     }
-
-    @Test
-    void anotherTest() {
-        Selenide.open("http://127.0.0.1:3000/");
-        $("a[href*='redirect']").should(visible);
-    }
-
 
     @GenerateCategory(
             username = USERNAME,
