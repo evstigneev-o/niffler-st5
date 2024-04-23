@@ -17,7 +17,7 @@ public class MainPage {
     }
 
     public MainPage chooseSpending(SelenideElement spending) {
-        spending.$$("td").first().click();
+        spending.$$("td").first().scrollIntoView(true).click();
         return this;
     }
 

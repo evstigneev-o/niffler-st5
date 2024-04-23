@@ -9,7 +9,8 @@ public class WelcomePage {
 
     private final SelenideElement loginButton = $(byText("Login"));
 
-    public void openLoginPage() {
+    public LoginPage openLoginPage() {
         loginButton.click();
+        return new LoginPage();
     }
 }
