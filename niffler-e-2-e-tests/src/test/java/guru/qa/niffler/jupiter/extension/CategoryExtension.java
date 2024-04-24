@@ -13,14 +13,14 @@ import java.io.IOException;
 
 public class CategoryExtension implements BeforeEachCallback {
 
-    public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(CategoryExtension.class);
-
     private static final OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
+
     private final Retrofit retrofit = new Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl("http://127.0.0.1:8093")
             .addConverterFactory(JacksonConverterFactory.create())
             .build();
+
     private final CategoriesApi categoriesApi = retrofit.create(CategoriesApi.class);
 
     @Override
@@ -32,11 +32,9 @@ public class CategoryExtension implements BeforeEachCallback {
                                     null,
                                     category.category(),
                                     category.username()
-
                             );
                             try {
-                                CategoryJson result = categoriesApi.addCategory(categoryJson).execute().body();
-                                extensionContext.getStore(NAMESPACE).put("category", result);
+                                categoriesApi.addCategory(categoryJson).execute().body();
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
