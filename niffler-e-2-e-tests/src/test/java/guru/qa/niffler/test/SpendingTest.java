@@ -15,8 +15,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-@ExtendWith(CategoryExtension.class)
-@ExtendWith(SpendExtension.class)
+@ExtendWith({
+        CategoryExtension.class,
+        SpendExtension.class
+})
 public class SpendingTest {
     private final WelcomePage welcomePage = new WelcomePage();
     private final MainPage mainPage = new MainPage();
@@ -45,11 +47,9 @@ public class SpendingTest {
             category = CATEGORY
     )
     @GenerateSpend(
-            username = USERNAME,
             description = "QA.GURU Advanced 5",
             amount = 65000.00,
-            currency = CurrencyValues.RUB,
-            category = CATEGORY
+            currency = CurrencyValues.RUB
     )
     @Test
     void spendingShouldBeDeletedAfterTableAction(SpendJson spendJson) {

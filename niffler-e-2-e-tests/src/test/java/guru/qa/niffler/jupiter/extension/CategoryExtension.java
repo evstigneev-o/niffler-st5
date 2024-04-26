@@ -10,8 +10,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import java.io.IOException;
+import java.util.Objects;
 
-public class CategoryExtension implements BeforeEachCallback {
+public class CategoryExtension implements BeforeEachCallback{
+
+    public static final  ExtensionContext.Namespace NAMESPACE =
+            ExtensionContext.Namespace.create(CategoryExtension.class);
 
     private static final OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
 
@@ -24,7 +28,7 @@ public class CategoryExtension implements BeforeEachCallback {
     private final CategoriesApi categoriesApi = retrofit.create(CategoriesApi.class);
 
     @Override
-    public void beforeEach(ExtensionContext extensionContext) throws Exception {
+    public void beforeEach(ExtensionContext extensionContext) {
         AnnotationSupport.findAnnotation(extensionContext.getRequiredTestMethod(), GenerateCategory.class)
                 .ifPresent(
                         category -> {
@@ -34,7 +38,8 @@ public class CategoryExtension implements BeforeEachCallback {
                                     category.username()
                             );
                             try {
-                                categoriesApi.addCategory(categoryJson).execute().body();
+                                CategoryJson result = Objects.requireNonNull(categoriesApi.addCategory(categoryJson).execute().body());
+                                extensionContext.getStore(NAMESPACE).put("category", result);
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
