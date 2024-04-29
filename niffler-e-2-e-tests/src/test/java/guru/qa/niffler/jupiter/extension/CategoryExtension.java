@@ -39,7 +39,7 @@ public class CategoryExtension implements BeforeEachCallback{
                             );
                             try {
                                 CategoryJson result = Objects.requireNonNull(categoriesApi.addCategory(categoryJson).execute().body());
-                                extensionContext.getStore(NAMESPACE).put("category", result);
+                                extensionContext.getStore(NAMESPACE).put(extensionContext.getUniqueId(), result);
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }

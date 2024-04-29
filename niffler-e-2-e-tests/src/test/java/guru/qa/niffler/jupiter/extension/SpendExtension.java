@@ -35,7 +35,7 @@ public class SpendExtension implements BeforeEachCallback, ParameterResolver {
     @Override
     public void beforeEach(ExtensionContext extensionContext) {
         SpendApi spendApi = retrofit.create(SpendApi.class);
-        CategoryJson category =  extensionContext.getStore(CategoryExtension.NAMESPACE).get("category", CategoryJson.class);
+        CategoryJson category =  extensionContext.getStore(CategoryExtension.NAMESPACE).get(extensionContext.getUniqueId(), CategoryJson.class);
 
         AnnotationSupport.findAnnotation(
                 extensionContext.getRequiredTestMethod(),
@@ -53,7 +53,7 @@ public class SpendExtension implements BeforeEachCallback, ParameterResolver {
                     );
                     try {
                         SpendJson result = Objects.requireNonNull(spendApi.createSpend(spendJson).execute().body());
-                        extensionContext.getStore(NAMESPACE).put("spend", result);
+                        extensionContext.getStore(NAMESPACE).put(extensionContext.getUniqueId(), result);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -71,6 +71,6 @@ public class SpendExtension implements BeforeEachCallback, ParameterResolver {
 
     @Override
     public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-        return extensionContext.getStore(NAMESPACE).get("spend");
+        return extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId());
     }
 }
