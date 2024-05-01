@@ -3,8 +3,7 @@ package guru.qa.niffler.pages;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 
-import static com.codeborne.selenide.Condition.attribute;
-import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 
 public class PeoplePage {
@@ -20,8 +19,8 @@ public class PeoplePage {
         return this;
     }
 
-    public PeoplePage checkFriendship(SelenideElement user){
-        user.$$("td").last().shouldHave(text("You are friends"));
+    public PeoplePage checkFriendship(){
+        peopleRows.find(text("You are friends")).shouldHave(exist);
         return this;
     }
 
