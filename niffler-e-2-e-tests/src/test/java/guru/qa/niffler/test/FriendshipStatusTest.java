@@ -30,96 +30,96 @@ public class FriendshipStatusTest {
 
 
     @Test
-    void userShouldHavePendingInvitationsStatus(@User(selector = INVITE_SENT)UserJson userForTest,@User(selector = INVITE_RECEIVED) UserJson anotherUserForTest)  {
+    void userShouldHavePendingInvitationsStatus(@User(selector = INVITE_SENT) UserJson userForTest, @User(selector = INVITE_RECEIVED) UserJson anotherUserForTest) {
         Selenide.open("http://127.0.0.1:3000/");
         welcomePage
                 .openLoginPage()
-                .signIn(userForTest.username(),userForTest.testData().password());
+                .signIn(userForTest.username(), userForTest.testData().password());
         mainPage.openPeoplePage();
         var user = peoplePage.findUserByName(anotherUserForTest.username());
         peoplePage.checkSendedInvite(user);
     }
 
     @Test
-    void userShouldHavePendingInvitationsStatus2(@User(selector = INVITE_SENT)UserJson userForTest,@User(selector = INVITE_RECEIVED) UserJson anotherUserForTest)  {
+    void userShouldHavePendingInvitationsStatus2(@User(selector = INVITE_SENT) UserJson userForTest, @User(selector = INVITE_RECEIVED) UserJson anotherUserForTest) {
         Selenide.open("http://127.0.0.1:3000/");
         welcomePage
                 .openLoginPage()
-                .signIn(userForTest.username(),userForTest.testData().password());
+                .signIn(userForTest.username(), userForTest.testData().password());
         mainPage.openPeoplePage();
         var user = peoplePage.findUserByName(anotherUserForTest.username());
         peoplePage.checkSendedInvite(user);
     }
 
     @Test
-    void userShouldHavePendingInvitationsStatus3(@User(selector = INVITE_SENT)UserJson userForTest,@User(selector = INVITE_RECEIVED) UserJson anotherUserForTest)  {
+    void userShouldHavePendingInvitationsStatus3(@User(selector = INVITE_SENT) UserJson userForTest, @User(selector = INVITE_RECEIVED) UserJson anotherUserForTest) {
         Selenide.open("http://127.0.0.1:3000/");
         welcomePage
                 .openLoginPage()
-                .signIn(userForTest.username(),userForTest.testData().password());
+                .signIn(userForTest.username(), userForTest.testData().password());
         mainPage.openPeoplePage();
         var user = peoplePage.findUserByName(anotherUserForTest.username());
         peoplePage.checkSendedInvite(user);
     }
 
     @Test
-    void userShouldHaveFriendshipStatus(@User(selector = WITH_FRIEND)UserJson userForTest){
+    void userShouldHaveFriendshipStatus(@User(selector = WITH_FRIEND) UserJson userForTest) {
         Selenide.open("http://127.0.0.1:3000/");
         welcomePage
                 .openLoginPage()
-                .signIn(userForTest.username(),userForTest.testData().password());
+                .signIn(userForTest.username(), userForTest.testData().password());
         mainPage.openPeoplePage();
         peoplePage.checkFriendship();
     }
 
     @Test
-    void userShouldHaveFriendshipStatus2(@User(selector = WITH_FRIEND)UserJson userForTest){
+    void userShouldHaveFriendshipStatus2(@User(selector = WITH_FRIEND) UserJson userForTest) {
         Selenide.open("http://127.0.0.1:3000/");
         welcomePage
                 .openLoginPage()
-                .signIn(userForTest.username(),userForTest.testData().password());
+                .signIn(userForTest.username(), userForTest.testData().password());
         mainPage.openPeoplePage();
         peoplePage.checkFriendship();
     }
 
     @Test
-    void userShouldHaveFriendshipStatus3(@User(selector = WITH_FRIEND)UserJson userForTest){
+    void userShouldHaveFriendshipStatus3(@User(selector = WITH_FRIEND) UserJson userForTest) {
         Selenide.open("http://127.0.0.1:3000/");
         welcomePage
                 .openLoginPage()
-                .signIn(userForTest.username(),userForTest.testData().password());
+                .signIn(userForTest.username(), userForTest.testData().password());
         mainPage.openPeoplePage();
         peoplePage.checkFriendship();
     }
 
     @Test
-    void userShouldHaveReceivedInvite(@User(selector = INVITE_RECEIVED)UserJson userForTest, @User(selector = INVITE_SENT) UserJson anotherUserForTest){
+    void userShouldHaveReceivedInvite(@User(selector = INVITE_RECEIVED) UserJson userForTest, @User(selector = INVITE_SENT) UserJson anotherUserForTest) {
         Selenide.open("http://127.0.0.1:3000/");
         welcomePage
                 .openLoginPage()
-                .signIn(userForTest.username(),userForTest.testData().password());
+                .signIn(userForTest.username(), userForTest.testData().password());
         mainPage.openPeoplePage();
         var user = peoplePage.findUserByName(anotherUserForTest.username());
         peoplePage.checkReceivedInvite(user);
     }
 
     @Test
-    void userShouldHaveReceivedInvite2(@User(selector = INVITE_RECEIVED)UserJson userForTest, @User(selector = INVITE_SENT) UserJson anotherUserForTest){
+    void userShouldHaveReceivedInvite2(@User(selector = INVITE_RECEIVED) UserJson userForTest, @User(selector = INVITE_SENT) UserJson anotherUserForTest) {
         Selenide.open("http://127.0.0.1:3000/");
         welcomePage
                 .openLoginPage()
-                .signIn(userForTest.username(),userForTest.testData().password());
+                .signIn(userForTest.username(), userForTest.testData().password());
         mainPage.openPeoplePage();
         var user = peoplePage.findUserByName(anotherUserForTest.username());
         peoplePage.checkReceivedInvite(user);
     }
 
     @Test
-    void userShouldHaveReceivedInvite3(@User(selector = INVITE_RECEIVED)UserJson userForTest, @User(selector = INVITE_SENT) UserJson anotherUserForTest){
+    void userShouldHaveReceivedInvite3(@User(selector = INVITE_RECEIVED) UserJson userForTest, @User(selector = INVITE_SENT) UserJson anotherUserForTest) {
         Selenide.open("http://127.0.0.1:3000/");
         welcomePage
                 .openLoginPage()
-                .signIn(userForTest.username(),userForTest.testData().password());
+                .signIn(userForTest.username(), userForTest.testData().password());
         mainPage.openPeoplePage();
         var user = peoplePage.findUserByName(anotherUserForTest.username());
         peoplePage.checkReceivedInvite(user);

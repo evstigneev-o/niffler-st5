@@ -24,28 +24,28 @@ public class UsersQueueExtension implements BeforeEachCallback, AfterEachCallbac
     static {
         USERS.put(User.Selector.WITH_FRIEND, new ConcurrentLinkedQueue<>(
                 List.of(
-                        simpleUser("oleg","1234"),
-                        simpleUser("alex","1234"),
-                        simpleUser("igor","1234")
+                        simpleUser("oleg", "1234"),
+                        simpleUser("alex", "1234"),
+                        simpleUser("igor", "1234")
                 ))
         );
         USERS.put(User.Selector.INVITE_SENT, new ConcurrentLinkedQueue<>(
                 List.of(
-                       simpleUser("jim_send","1234"),
-                        simpleUser("tim_send","1234"),
-                        simpleUser("jin_send","1234")
+                        simpleUser("jim_send", "1234"),
+                        simpleUser("tim_send", "1234"),
+                        simpleUser("jin_send", "1234")
                 ))
         );
         USERS.put(User.Selector.INVITE_RECEIVED, new ConcurrentLinkedQueue<>(
                 List.of(
-                        simpleUser("ben_rcvd","1234"),
-                        simpleUser("den_rcvd","1234"),
-                        simpleUser("july_rcvd","1234")
+                        simpleUser("ben_rcvd", "1234"),
+                        simpleUser("den_rcvd", "1234"),
+                        simpleUser("july_rcvd", "1234")
                 ))
         );
         USERS.put(User.Selector.COMMON, new ConcurrentLinkedQueue<>(
                 List.of(
-                        simpleUser("serg","1234")
+                        simpleUser("serg", "1234")
                 ))
         );
     }
@@ -77,11 +77,11 @@ public class UsersQueueExtension implements BeforeEachCallback, AfterEachCallbac
         // Обработка полученных параметров
         for (Parameter parameter : parameters) {
             User.Selector selector = parameter.getAnnotation(User.class).selector();
-            if(users.containsKey(selector)) continue;
+            if (users.containsKey(selector)) continue;
             UserJson userForTest = null;
             Queue<UserJson> queue = USERS.get(selector);
             while (userForTest == null) {
-                userForTest= queue.poll();
+                userForTest = queue.poll();
             }
             users.put(selector, userForTest);
         }
@@ -92,8 +92,8 @@ public class UsersQueueExtension implements BeforeEachCallback, AfterEachCallbac
 
     @Override
     public void afterEach(ExtensionContext context) {
-        Map<User.Selector,UserJson> usersAfterTest = context.getStore(NAMESPACE).get(context.getUniqueId(),Map.class);
-        for(Map.Entry<User.Selector, UserJson> user:usersAfterTest.entrySet()){
+        Map<User.Selector, UserJson> usersAfterTest = context.getStore(NAMESPACE).get(context.getUniqueId(), Map.class);
+        for (Map.Entry<User.Selector, UserJson> user : usersAfterTest.entrySet()) {
             USERS.get(user.getKey()).add(user.getValue());
         }
     }

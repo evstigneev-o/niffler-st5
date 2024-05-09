@@ -13,7 +13,7 @@ import java.io.ByteArrayInputStream;
 import java.util.Objects;
 
 public class BrowserExtension implements TestExecutionExceptionHandler,
-        LifecycleMethodExecutionExceptionHandler, AfterEachCallback{
+        LifecycleMethodExecutionExceptionHandler, AfterEachCallback {
 
     @Override
     public void handleTestExecutionException(ExtensionContext context, Throwable throwable) throws Throwable {
@@ -46,7 +46,7 @@ public class BrowserExtension implements TestExecutionExceptionHandler,
 
     @Override
     public void afterEach(ExtensionContext context) {
-        if( WebDriverRunner.hasWebDriverStarted()){
+        if (WebDriverRunner.hasWebDriverStarted()) {
             Selenide.closeWebDriver();
         }
     }
