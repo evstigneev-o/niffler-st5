@@ -12,6 +12,8 @@ public class MainPage {
             .$$("tr");
     private final SelenideElement deleteSpendingButton = $(".spendings__bulk-actions button");
 
+    private final SelenideElement peoplePage = $("[data-tooltip-id='people']");
+
     public SelenideElement findSpendingByDescription(String description) {
         return spendingRows.find(text(description));
     }
@@ -28,5 +30,10 @@ public class MainPage {
 
     public void checkSpendingsCount(int size) {
         spendingRows.shouldHave(size(size));
+    }
+
+    public PeoplePage openPeoplePage() {
+        peoplePage.click();
+        return new PeoplePage();
     }
 }

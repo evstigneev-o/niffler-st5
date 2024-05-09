@@ -6,9 +6,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface GenerateCategory {
-    String category();
+@Target(ElementType.PARAMETER)
+public @interface User {
+    Selector selector();
 
-    String username();
+    enum Selector {
+        COMMON, INVITE_SENT, INVITE_RECEIVED, WITH_FRIEND
+    }
 }

@@ -25,39 +25,43 @@ public class UsersQueueExampleTest {
     }
 
     @Test
-    void LoginTest1(UserJson user){
+    void LoginTest1(UserJson user) {
         Selenide.open("http://127.0.0.1:3000/");
         welcomePage
                 .openLoginPage()
                 .signIn(user.username(), user.testData().password());
         $(".header__avatar").should(visible);
     }
+
     @Test
-    void LoginTest2(UserJson user){
+    void LoginTest2(UserJson user) {
         Selenide.open("http://127.0.0.1:3000/");
         welcomePage
                 .openLoginPage()
                 .signIn(user.username(), user.testData().password());
         $(".header__avatar").should(visible);
     }
+
     @Test
-    void LoginTest3(UserJson user){
+    void LoginTest3(UserJson user) {
         Selenide.open("http://127.0.0.1:3000/");
         welcomePage
                 .openLoginPage()
                 .signIn(user.username(), user.testData().password());
         $(".header__avatar").should(visible);
     }
+
     @Test
-    void LoginTest4(UserJson user){
+    void LoginTest4(UserJson user) {
         Selenide.open("http://127.0.0.1:3000/");
         welcomePage
                 .openLoginPage()
                 .signIn(user.username(), user.testData().password());
         $(".header__avatar").should(visible);
     }
+
     @Test
-    void LoginTest5(UserJson user){
+    void LoginTest5(UserJson user) {
         Selenide.open("http://127.0.0.1:3000/");
         welcomePage
                 .openLoginPage()

@@ -17,17 +17,17 @@ public class UserQueueExtension implements BeforeEachCallback, AfterEachCallback
 
     private static final Queue<UserJson> USERS = new ConcurrentLinkedQueue<>();
 
-   static {
-       USERS.add(simpleUser("oleg","1234"));
-       USERS.add(simpleUser("alex","1234"));
-       USERS.add(simpleUser("igor","1234"));
-   }
+    static {
+        USERS.add(simpleUser("oleg", "1234"));
+        USERS.add(simpleUser("alex", "1234"));
+        USERS.add(simpleUser("igor", "1234"));
+    }
 
     @Override
     public void beforeEach(ExtensionContext context) throws Exception {
         UserJson userForTest = null;
         while (userForTest == null) {
-            userForTest= USERS.poll();
+            userForTest = USERS.poll();
         }
         Allure.getLifecycle().updateTestCase(testCase ->
                 testCase.setStart(new Date().getTime()));
@@ -36,8 +36,8 @@ public class UserQueueExtension implements BeforeEachCallback, AfterEachCallback
 
     @Override
     public void afterEach(ExtensionContext context) throws Exception {
-       UserJson userFromTest =  context.getStore(NAMESPACE).get(context.getUniqueId(), UserJson.class);
-       USERS.add(userFromTest);
+        UserJson userFromTest = context.getStore(NAMESPACE).get(context.getUniqueId(), UserJson.class);
+        USERS.add(userFromTest);
     }
 
     @Override
