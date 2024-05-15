@@ -79,6 +79,7 @@ public class SpendRepositoryJdbc implements SpendRepository {
         }
     }
 
+
     @Override
     public SpendEntity createSpend(SpendEntity spend) {
         try (Connection connection = spendDataSource.getConnection();
@@ -154,4 +155,6 @@ public class SpendRepositoryJdbc implements SpendRepository {
             throw new RuntimeException(e);
         }
     }
+
+
 }
