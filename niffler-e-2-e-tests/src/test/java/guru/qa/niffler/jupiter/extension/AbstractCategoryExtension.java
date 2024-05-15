@@ -15,9 +15,7 @@ public abstract class AbstractCategoryExtension implements BeforeEachCallback, A
     public void beforeEach(ExtensionContext extensionContext) {
         AnnotationSupport.findAnnotation(extensionContext.getRequiredTestMethod(), GenerateCategory.class)
                 .ifPresent(
-                        category -> {
-                            extensionContext.getStore(NAMESPACE).put(extensionContext.getUniqueId(), createCategory(category));
-                        }
+                        category -> extensionContext.getStore(NAMESPACE).put(extensionContext.getUniqueId(), createCategory(category))
                 );
     }
 
