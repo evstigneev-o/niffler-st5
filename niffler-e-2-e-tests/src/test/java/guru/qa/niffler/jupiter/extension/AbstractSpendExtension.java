@@ -15,7 +15,7 @@ public abstract class AbstractSpendExtension implements BeforeEachCallback, Afte
 
 
     @Override
-    public void beforeEach(ExtensionContext context) throws Exception {
+    public void beforeEach(ExtensionContext context) {
         CategoryJson category = context.getStore(AbstractCategoryExtension.NAMESPACE).get(context.getUniqueId(), CategoryJson.class);
         AnnotationSupport.findAnnotation(
                         context.getRequiredTestMethod(),
@@ -37,7 +37,7 @@ public abstract class AbstractSpendExtension implements BeforeEachCallback, Afte
     }
 
     @Override
-    public void afterEach(ExtensionContext context) throws Exception {
+    public void afterEach(ExtensionContext context) {
         SpendJson spendJson = context.getStore(NAMESPACE).get(context.getUniqueId(), SpendJson.class);
         removeSpend(spendJson);
     }
