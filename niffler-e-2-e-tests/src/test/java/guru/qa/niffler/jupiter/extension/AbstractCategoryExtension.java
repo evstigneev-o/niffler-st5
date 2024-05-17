@@ -15,7 +15,13 @@ public abstract class AbstractCategoryExtension implements BeforeEachCallback, A
     public void beforeEach(ExtensionContext extensionContext) {
         AnnotationSupport.findAnnotation(extensionContext.getRequiredTestMethod(), GenerateCategory.class)
                 .ifPresent(
-                        category -> extensionContext.getStore(NAMESPACE).put(extensionContext.getUniqueId(), createCategory(category))
+                        category -> {
+                            CategoryJson categoryJson = new CategoryJson(
+                                    null,
+                                    category.category(),
+                                    category.username());
+                            extensionContext.getStore(NAMESPACE).put(extensionContext.getUniqueId(), createCategory(categoryJson));
+                        }
                 );
     }
 
@@ -38,7 +44,7 @@ public abstract class AbstractCategoryExtension implements BeforeEachCallback, A
         return (CategoryJson) extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId());
     }
 
-    protected abstract CategoryJson createCategory(GenerateCategory category);
+    protected abstract CategoryJson createCategory(CategoryJson category);
 
     protected abstract void removeCategory(CategoryJson category);
 }

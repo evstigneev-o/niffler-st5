@@ -1,7 +1,6 @@
 package guru.qa.niffler.jupiter.extension;
 
 import guru.qa.niffler.api.CategoriesApi;
-import guru.qa.niffler.jupiter.annotation.GenerateCategory;
 import guru.qa.niffler.model.CategoryJson;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -10,7 +9,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 import java.io.IOException;
 import java.util.Objects;
 
-public class CategoryHttpExtension extends AbstractCategoryExtension{
+public class CategoryHttpExtension extends AbstractCategoryExtension {
 
     private static final OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
 
@@ -23,13 +22,14 @@ public class CategoryHttpExtension extends AbstractCategoryExtension{
     private final CategoriesApi categoriesApi = retrofit.create(CategoriesApi.class);
 
     @Override
-    protected CategoryJson createCategory(GenerateCategory category) {
+    protected CategoryJson createCategory(CategoryJson category) {
         CategoryJson categoryJson = new CategoryJson(
                 null,
                 category.category(),
                 category.username()
         );
         try {
+            System.out.println("Create category" + categoryJson.toString());
             return Objects.requireNonNull(categoriesApi.addCategory(categoryJson).execute().body());
         } catch (IOException e) {
             throw new RuntimeException(e);

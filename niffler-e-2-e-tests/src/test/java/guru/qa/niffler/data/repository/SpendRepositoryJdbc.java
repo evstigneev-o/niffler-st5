@@ -7,7 +7,10 @@ import guru.qa.niffler.data.jdbc.DataSourceProvider;
 import guru.qa.niffler.model.CurrencyValues;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.UUID;
 
 public class SpendRepositoryJdbc implements SpendRepository {
@@ -67,6 +70,50 @@ public class SpendRepositoryJdbc implements SpendRepository {
         }
     }
 
+    public CategoryEntity getCategoryByUsernameAndCategory(String categoryName, String username) {
+        CategoryEntity category = new CategoryEntity();
+        try (Connection connection = spendDataSource.getConnection();
+             PreparedStatement ps = connection.prepareStatement(
+                     "SELECT * FROM category WHERE category = ? AND username = ?"
+             )) {
+            ps.setString(1, categoryName);
+            ps.setString(2, username);
+            ps.executeQuery();
+
+            try (ResultSet resultSet = ps.getResultSet()) {
+                if (resultSet.next()) {
+                    category.setId(UUID.fromString(resultSet.getString("id")));
+                    category.setCategory(resultSet.getString("category"));
+                    category.setUsername(resultSet.getString("username"));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return category;
+    }
+
+    public CategoryEntity getCategoryById(UUID id) {
+        CategoryEntity category = new CategoryEntity();
+        try (Connection connection = spendDataSource.getConnection();
+             PreparedStatement ps = connection.prepareStatement(
+                     "SELECT * FROM category WHERE id = ?"
+             )) {
+            ps.setObject(1, id);
+            ps.executeQuery();
+            try (ResultSet resultSet = ps.getResultSet()) {
+                if (resultSet.next()) {
+                    category.setId(UUID.fromString(resultSet.getString("id")));
+                    category.setCategory(resultSet.getString("category"));
+                    category.setUsername(resultSet.getString("username"));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return category;
+    }
+
     @Override
     public void removeCategory(CategoryEntity category) {
         try (Connection connection = spendDataSource.getConnection();
@@ -110,7 +157,7 @@ public class SpendRepositoryJdbc implements SpendRepository {
     @Override
     public SpendEntity editSpend(SpendEntity spend) {
         try (Connection connection = spendDataSource.getConnection();
-             PreparedStatement us= connection.prepareStatement(
+             PreparedStatement us = connection.prepareStatement(
                      "UPDATE spend SET username=?, spend_date=?, currency=?, amount=?, description =?, category_id=? WHERE id=?");
              PreparedStatement ss = connection.prepareStatement(
                      "SELECT * FROM spend WHERE id=?")) {
@@ -122,7 +169,6 @@ public class SpendRepositoryJdbc implements SpendRepository {
             us.setObject(6, spend.getCategory());
             us.setObject(7, spend.getId());
             int rowsAffected = us.executeUpdate();
-            System.out.println(rowsAffected);
             SpendEntity newSpend = new SpendEntity();
             if (rowsAffected > 0) {
                 ss.setObject(1, spend.getId());

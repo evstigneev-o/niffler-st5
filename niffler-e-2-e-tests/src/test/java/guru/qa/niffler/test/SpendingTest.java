@@ -4,6 +4,8 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.jupiter.annotation.GenerateCategory;
 import guru.qa.niffler.jupiter.annotation.GenerateSpend;
+import guru.qa.niffler.jupiter.annotation.meta.WebHttpTest;
+import guru.qa.niffler.jupiter.annotation.meta.WebJdbcTest;
 import guru.qa.niffler.jupiter.annotation.meta.WebTest;
 import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
@@ -13,7 +15,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-@WebTest
+@WebJdbcTest
+//@WebHttpTest
 public class SpendingTest {
     private final WelcomePage welcomePage = new WelcomePage();
     private final MainPage mainPage = new MainPage();

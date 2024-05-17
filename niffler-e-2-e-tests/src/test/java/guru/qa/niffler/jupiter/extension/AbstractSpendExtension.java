@@ -1,22 +1,38 @@
 package guru.qa.niffler.jupiter.extension;
 
 import guru.qa.niffler.jupiter.annotation.GenerateSpend;
+import guru.qa.niffler.model.CategoryJson;
 import guru.qa.niffler.model.SpendJson;
 import org.junit.jupiter.api.extension.*;
 import org.junit.platform.commons.support.AnnotationSupport;
+
+import java.util.Date;
 
 public abstract class AbstractSpendExtension implements BeforeEachCallback, AfterEachCallback, ParameterResolver {
 
     public static final ExtensionContext.Namespace NAMESPACE =
             ExtensionContext.Namespace.create(AbstractSpendExtension.class);
 
+
     @Override
     public void beforeEach(ExtensionContext context) throws Exception {
+        CategoryJson category = context.getStore(AbstractCategoryExtension.NAMESPACE).get(context.getUniqueId(), CategoryJson.class);
         AnnotationSupport.findAnnotation(
                         context.getRequiredTestMethod(),
                         GenerateSpend.class)
                 .ifPresent(
-                        spend -> context.getStore(NAMESPACE).put(context.getUniqueId(), createSpend(spend))
+                        spend -> {
+                            SpendJson spendJson = new SpendJson(
+                                    null,
+                                    new Date(),
+                                    category.category(),
+                                    spend.currency(),
+                                    spend.amount(),
+                                    spend.description(),
+                                    category.username()
+                            );
+                            context.getStore(NAMESPACE).put(context.getUniqueId(), createSpend(spendJson));
+                        }
                 );
     }
 
@@ -39,7 +55,9 @@ public abstract class AbstractSpendExtension implements BeforeEachCallback, Afte
         return extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId());
     }
 
-    protected abstract SpendJson createSpend(GenerateSpend spend);
+    protected abstract SpendJson createSpend(SpendJson spend);
+
+    protected abstract SpendJson editSpend(SpendJson spend);
 
     protected abstract void removeSpend(SpendJson spend);
 }
