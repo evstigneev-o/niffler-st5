@@ -29,7 +29,6 @@ public class CategoryHttpExtension extends AbstractCategoryExtension {
                 category.username()
         );
         try {
-            System.out.println("Create category" + categoryJson.toString());
             return Objects.requireNonNull(categoriesApi.addCategory(categoryJson).execute().body());
         } catch (IOException e) {
             throw new RuntimeException(e);

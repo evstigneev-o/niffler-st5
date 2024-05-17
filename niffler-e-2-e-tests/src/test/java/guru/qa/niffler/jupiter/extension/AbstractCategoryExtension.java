@@ -26,7 +26,7 @@ public abstract class AbstractCategoryExtension implements BeforeEachCallback, A
     }
 
     @Override
-    public void afterEach(ExtensionContext context) throws Exception {
+    public void afterEach(ExtensionContext context) {
         CategoryJson categoryJson = context.getStore(NAMESPACE).get(context.getUniqueId(), CategoryJson.class);
         removeCategory(categoryJson);
     }
