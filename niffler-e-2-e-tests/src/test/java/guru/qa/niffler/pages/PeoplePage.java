@@ -11,20 +11,20 @@ public class PeoplePage {
     private final ElementsCollection peopleRows = $(".abstract-table tbody").$$("tr");
 
     public SelenideElement findUserByName(String userName) {
-       return peopleRows.find(text(userName));
+        return peopleRows.find(text(userName));
     }
 
-    public PeoplePage checkSendedInvite(SelenideElement user){
+    public PeoplePage checkSendedInvite(SelenideElement user) {
         user.$$("td").last().shouldHave(text("Pending invitation"));
         return this;
     }
 
-    public PeoplePage checkFriendship(){
+    public PeoplePage checkFriendship() {
         peopleRows.find(text("You are friends")).shouldHave(exist);
         return this;
     }
 
-    public PeoplePage checkReceivedInvite(SelenideElement user){
+    public PeoplePage checkReceivedInvite(SelenideElement user) {
         user.$$("td").last().$(".abstract-table__buttons div")
                 .shouldHave(attribute("data-tooltip-id", "submit-invitation"));
         return this;

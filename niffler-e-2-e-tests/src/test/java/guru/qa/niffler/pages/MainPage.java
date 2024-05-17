@@ -32,7 +32,7 @@ public class MainPage {
         spendingRows.shouldHave(size(size));
     }
 
-    public PeoplePage openPeoplePage(){
+    public PeoplePage openPeoplePage() {
         peoplePage.click();
         return new PeoplePage();
     }
