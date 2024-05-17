@@ -8,7 +8,6 @@ public class CategoryConverter {
     private static final SpendRepositoryJdbc spendRepository = new SpendRepositoryJdbc();
 
     public static UUID getCategoryIdByCategoryAndUsername(String category, String username){
-        System.out.println("Категория " + spendRepository.getCategoryByUsernameAndCategory(username, category).getCategory());
         return spendRepository.getCategoryByUsernameAndCategory(username, category).getId();
     }
 
