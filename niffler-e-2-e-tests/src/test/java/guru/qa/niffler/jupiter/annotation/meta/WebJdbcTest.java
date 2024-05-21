@@ -11,9 +11,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @ExtendWith({
-        BrowserExtension.class,
-        CategoryJdbcExtension.class,
-        SpendJdbcExtension.class,
+        BrowserExtension.class//,
+        //CategoryJdbcExtension.class,
+        //SpendJdbcExtension.class,
 })
 public @interface WebJdbcTest {
 }
