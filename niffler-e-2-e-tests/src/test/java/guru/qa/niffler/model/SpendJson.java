@@ -28,11 +28,11 @@ public record SpendJson(
         return new SpendJson(
                 spendEntity.getId(),
                 spendEntity.getSpendDate(),
-                spendEntity.getUsername(),
+                getCategoryNameById(spendEntity.getCategory()),
                 spendEntity.getCurrency(),
                 spendEntity.getAmount(),
                 spendEntity.getDescription(),
-                getCategoryNameById(spendEntity.getCategory())
+                spendEntity.getUsername()
         );
     }
 
