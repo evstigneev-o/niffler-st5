@@ -10,11 +10,9 @@ public abstract class AbstractCreateUserExtension implements BeforeEachCallback,
             ExtensionContext.Namespace.create(AbstractCreateUserExtension.class);
 
     @Override
-    public void beforeEach(ExtensionContext context) throws Exception {
+    public void beforeEach(ExtensionContext context) {
         AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), TestUser.class)
-                .ifPresent(testUser -> {
-                    context.getStore(NAMESPACE).put(context.getUniqueId(), createUser(UserJson.randomUser()));
-                });
+                .ifPresent(testUser -> context.getStore(NAMESPACE).put(context.getUniqueId(), createUser(UserJson.randomUser())));
 
     }
 
@@ -28,7 +26,7 @@ public abstract class AbstractCreateUserExtension implements BeforeEachCallback,
 
     @Override
     public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-        return (UserJson) extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId());
+        return extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId());
     }
 
     protected abstract UserJson createUser(UserJson user);
