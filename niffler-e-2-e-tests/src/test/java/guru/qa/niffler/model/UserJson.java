@@ -2,6 +2,7 @@ package guru.qa.niffler.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.javafaker.Faker;
 
 public record UserJson(
         @JsonProperty("username")
@@ -35,4 +36,22 @@ public record UserJson(
                 )
         );
     }
+
+    public static UserJson randomUser() {
+        Faker faker = new Faker();
+        return new UserJson(
+                faker.name().username(),
+                faker.name().firstName(),
+                faker.name().lastName(),
+                faker.options().option(CurrencyValues.class),
+                null,
+                null,
+                null,
+                new TestData(
+                        faker.internet().password()
+                )
+        );
+    }
+
+
 }

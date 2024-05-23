@@ -142,7 +142,7 @@ public class UserRepositorySpringJdbc implements UserRepository {
 
     @Override
     public UserEntity updateUserInUserdata(UserEntity user) {
-          userdataJdbcTemplate.update("UPDATE \"user\" SET username=?, currency=?, firstname=?, surname=?, photo=?, photo_small=? WHERE id=?",
+        userdataJdbcTemplate.update("UPDATE \"user\" SET username=?, currency=?, firstname=?, surname=?, photo=?, photo_small=? WHERE id=?",
                 user.getUsername(),
                 user.getCurrency().name(),
                 user.getFirstname(),
@@ -151,17 +151,17 @@ public class UserRepositorySpringJdbc implements UserRepository {
                 user.getPhotoSmall(),
                 user.getId()
         );
-          return user;
+        return user;
     }
 
     @Override
     public Optional<UserEntity> findUserInUserdataById(UUID id) {
-       try{
-           return Optional.of(userdataJdbcTemplate.queryForObject(
-                   "SELECT * FROM \"user\" WHERE id = ?", UserEntityRowMapper.instance,id
-           ));
-       } catch(DataRetrievalFailureException e){
-           return Optional.empty();
-       }
+        try {
+            return Optional.of(userdataJdbcTemplate.queryForObject(
+                    "SELECT * FROM \"user\" WHERE id = ?", UserEntityRowMapper.instance, id
+            ));
+        } catch (DataRetrievalFailureException e) {
+            return Optional.empty();
+        }
     }
 }

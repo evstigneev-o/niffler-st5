@@ -207,9 +207,9 @@ public class SpendRepositoryJdbc implements SpendRepository {
     @Override
     public List<SpendEntity> findAllByUsername(String username) {
         List<SpendEntity> spends = new ArrayList<>();
-        try(Connection connection = spendDataSource.getConnection();
-            PreparedStatement ps = connection.prepareStatement(
-                    "SELECT * FROM spend WHERE username = ?")){
+        try (Connection connection = spendDataSource.getConnection();
+             PreparedStatement ps = connection.prepareStatement(
+                     "SELECT * FROM spend WHERE username = ?")) {
             ps.setString(1, username);
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
@@ -223,7 +223,7 @@ public class SpendRepositoryJdbc implements SpendRepository {
                 spend.setCategory(UUID.fromString(resultSet.getString("category_id")));
                 spends.add(spend);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return spends;

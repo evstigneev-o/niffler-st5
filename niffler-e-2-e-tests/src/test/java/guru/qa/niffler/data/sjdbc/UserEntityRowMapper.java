@@ -11,7 +11,9 @@ import java.util.UUID;
 public class UserEntityRowMapper implements RowMapper<UserEntity> {
 
     public static final UserEntityRowMapper instance = new UserEntityRowMapper();
-    private UserEntityRowMapper() {}
+
+    private UserEntityRowMapper() {
+    }
 
     @Override
     public UserEntity mapRow(ResultSet rs, int rowNum) throws SQLException {

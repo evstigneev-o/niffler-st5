@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface SpendRepository {
 
-    static SpendRepository getInstance(){
-        if("sjdbc".equals(System.getProperty("repo"))){
+    static SpendRepository getInstance() {
+        if ("sjdbc".equals(System.getProperty("repo"))) {
             return new SpendRepositorySpringJdbc();
         }
-        if("hibernate".equals(System.getProperty("repo"))){
+        if ("hibernate".equals(System.getProperty("repo"))) {
             return new SpendRepositoryHibernate();
         }
         return new SpendRepositoryJdbc();

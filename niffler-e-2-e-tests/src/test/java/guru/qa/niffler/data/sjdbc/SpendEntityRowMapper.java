@@ -11,7 +11,10 @@ import java.util.UUID;
 
 public class SpendEntityRowMapper implements RowMapper<SpendEntity> {
     public static final SpendEntityRowMapper instance = new SpendEntityRowMapper();
-    private SpendEntityRowMapper() {}
+
+    private SpendEntityRowMapper() {
+    }
+
     @Override
     public SpendEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
         SpendEntity spend = new SpendEntity();
