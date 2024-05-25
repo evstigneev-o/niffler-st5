@@ -12,9 +12,9 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 import java.io.IOException;
 import java.util.Objects;
 
-public class CategoryExtension implements BeforeEachCallback {
+public class CategoryExtension implements BeforeEachCallback{
 
-    public static final ExtensionContext.Namespace NAMESPACE =
+    public static final  ExtensionContext.Namespace NAMESPACE =
             ExtensionContext.Namespace.create(CategoryExtension.class);
 
     private static final OkHttpClient okHttpClient = new OkHttpClient.Builder().build();

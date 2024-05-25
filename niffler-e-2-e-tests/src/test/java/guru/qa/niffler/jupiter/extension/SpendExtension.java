@@ -35,7 +35,7 @@ public class SpendExtension implements BeforeEachCallback, ParameterResolver {
     @Override
     public void beforeEach(ExtensionContext extensionContext) {
         SpendApi spendApi = retrofit.create(SpendApi.class);
-        CategoryJson category = extensionContext.getStore(CategoryExtension.NAMESPACE).get(extensionContext.getUniqueId(), CategoryJson.class);
+        CategoryJson category = extensionContext.getStore(AbstractCategoryExtension.NAMESPACE).get(extensionContext.getUniqueId(), CategoryJson.class);
 
         AnnotationSupport.findAnnotation(
                 extensionContext.getRequiredTestMethod(),
