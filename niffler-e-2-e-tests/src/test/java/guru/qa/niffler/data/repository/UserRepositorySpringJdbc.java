@@ -1,7 +1,6 @@
 package guru.qa.niffler.data.repository;
 
 import guru.qa.niffler.data.DataBase;
-import guru.qa.niffler.data.entity.Authority;
 import guru.qa.niffler.data.entity.UserAuthEntity;
 import guru.qa.niffler.data.entity.UserEntity;
 import guru.qa.niffler.data.jdbc.DataSourceProvider;
@@ -67,12 +66,12 @@ public class UserRepositorySpringJdbc implements UserRepository {
                         @Override
                         public void setValues(PreparedStatement ps, int i) throws SQLException {
                             ps.setObject(1, user.getId());
-                            ps.setString(2, Authority.values()[i].name());
+                            ps.setString(2, user.getAuthorities().get(i).getAuthority().name());
                         }
 
                         @Override
                         public int getBatchSize() {
-                            return Authority.values().length;
+                            return user.getAuthorities().size();
                         }
                     }
             );
@@ -127,12 +126,12 @@ public class UserRepositorySpringJdbc implements UserRepository {
                         @Override
                         public void setValues(PreparedStatement ps, int i) throws SQLException {
                             ps.setObject(1, user.getId());
-                            ps.setString(2, Authority.values()[i].name());
+                            ps.setString(2, user.getAuthorities().get(i).getAuthority().name());
                         }
 
                         @Override
                         public int getBatchSize() {
-                            return Authority.values().length;
+                            return user.getAuthorities().size();
                         }
                     }
             );
