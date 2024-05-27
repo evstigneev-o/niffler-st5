@@ -1,10 +1,7 @@
 package guru.qa.niffler.data.repository;
 
 import guru.qa.niffler.data.DataBase;
-import guru.qa.niffler.data.entity.Authority;
-import guru.qa.niffler.data.entity.CurrencyValues;
-import guru.qa.niffler.data.entity.UserAuthEntity;
-import guru.qa.niffler.data.entity.UserEntity;
+import guru.qa.niffler.data.entity.*;
 import guru.qa.niffler.data.jdbc.DataSourceProvider;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -56,9 +53,9 @@ public class UserRepositoryJdbc implements UserRepository {
                 }
                 user.setId(generatedUserId);
 
-                for (Authority a : Authority.values()) {
+                for (AuthorityEntity a : user.getAuthorities()) {
                     authorityPs.setObject(1, generatedUserId);
-                    authorityPs.setString(2, a.name());
+                    authorityPs.setString(2, a.getAuthority().name());
                     authorityPs.addBatch();
                     authorityPs.clearParameters();
                 }
@@ -135,9 +132,9 @@ public class UserRepositoryJdbc implements UserRepository {
                 deleteAuthorityPs.setObject(1, user.getId());
                 deleteAuthorityPs.executeUpdate();
 
-                for (Authority a : Authority.values()) {
+                for (AuthorityEntity a : user.getAuthorities()) {
                     authorityPs.setObject(1, user.getId());
-                    authorityPs.setString(2, a.name());
+                    authorityPs.setString(2, a.getAuthority().name());
                     authorityPs.addBatch();
                 }
                 authorityPs.executeBatch();
