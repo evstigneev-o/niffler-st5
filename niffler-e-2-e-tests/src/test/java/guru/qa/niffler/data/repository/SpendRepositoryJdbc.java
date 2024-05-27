@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class SpendRepositoryJdbc implements SpendRepository {
@@ -45,12 +47,25 @@ public class SpendRepositoryJdbc implements SpendRepository {
     public CategoryEntity editCategory(CategoryEntity category) {
         try (Connection connection = spendDataSource.getConnection();
              PreparedStatement us = connection.prepareStatement(
-                     "UPDATE category SET category = ?, username = ? WHERE id = ?")) {
+                     "UPDATE category SET category=?, username=? WHERE id=?");
+             PreparedStatement ss = connection.prepareStatement(
+                     "SELECT * FROM category WHERE id=?")) {
 
             us.setString(1, category.getCategory());
             us.setString(2, category.getUsername());
             us.setObject(3, category.getId());
-            us.executeUpdate();
+
+            int rowsAffected = us.executeUpdate();
+            if (rowsAffected > 0) {
+                ss.setObject(1, category.getId());
+                try (ResultSet resultSet = ss.executeQuery()) {
+                    if (resultSet.next()) {
+                        category.setId(UUID.fromString(resultSet.getString("id")));
+                        category.setCategory(resultSet.getString("category"));
+                        category.setUsername(resultSet.getString("username"));
+                    }
+                }
+            }
             return category;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -204,5 +219,31 @@ public class SpendRepositoryJdbc implements SpendRepository {
         spend.setCategory(UUID.fromString(resultSet.getString("category_id")));
         return spend;
     }
+
+    @Override
+    public List<SpendEntity> findAllByUsername(String username) {
+        List<SpendEntity> spends = new ArrayList<>();
+        try (Connection connection = spendDataSource.getConnection();
+             PreparedStatement ps = connection.prepareStatement(
+                     "SELECT * FROM spend WHERE username = ?")) {
+            ps.setString(1, username);
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                SpendEntity spend = new SpendEntity();
+                spend.setId(UUID.fromString(resultSet.getString("id")));
+                spend.setUsername(resultSet.getString("username"));
+                spend.setSpendDate(resultSet.getDate("spend_date"));
+                spend.setCurrency(CurrencyValues.valueOf(resultSet.getString("currency")));
+                spend.setAmount(resultSet.getDouble("amount"));
+                spend.setDescription(resultSet.getString("description"));
+                spend.setCategory(UUID.fromString(resultSet.getString("category_id")));
+                spends.add(spend);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return spends;
+    }
+
 
 }

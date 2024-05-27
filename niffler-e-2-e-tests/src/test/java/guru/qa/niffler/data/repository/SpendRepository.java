@@ -3,15 +3,18 @@ package guru.qa.niffler.data.repository;
 import guru.qa.niffler.data.entity.CategoryEntity;
 import guru.qa.niffler.data.entity.SpendEntity;
 
+import java.util.List;
+
 public interface SpendRepository {
 
-    static SpendRepository getInstance(){
-//        if("sjdbc".equals(System.getProperty("repo"))){
-//            return new SpendRepositorySpringJdbc();
-//        }
-//        if("hibernate".equals(System.getProperty("repo"))){
-//            return new SpendRepositoryHibernate();
-//        }
+    static SpendRepository getInstance() {
+        String repo = System.getProperty("repo");
+        if ("sjdbc".equals(repo)) {
+            return new SpendRepositorySpringJdbc();
+        }
+        if ("hibernate".equals(repo)) {
+            return new SpendRepositoryHibernate();
+        }
         return new SpendRepositoryJdbc();
     }
 
@@ -26,6 +29,8 @@ public interface SpendRepository {
     SpendEntity editSpend(SpendEntity spend);
 
     void removeSpend(SpendEntity spend);
+
+    List<SpendEntity> findAllByUsername(String username);
 
 
 }
