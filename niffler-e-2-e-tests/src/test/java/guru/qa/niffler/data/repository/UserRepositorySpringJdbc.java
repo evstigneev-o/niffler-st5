@@ -1,7 +1,6 @@
 package guru.qa.niffler.data.repository;
 
 import guru.qa.niffler.data.DataBase;
-import guru.qa.niffler.data.entity.Authority;
 import guru.qa.niffler.data.entity.UserAuthEntity;
 import guru.qa.niffler.data.entity.UserEntity;
 import guru.qa.niffler.data.jdbc.DataSourceProvider;
