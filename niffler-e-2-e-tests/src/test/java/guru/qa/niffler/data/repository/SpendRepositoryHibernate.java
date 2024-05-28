@@ -1,14 +1,22 @@
 package guru.qa.niffler.data.repository;
 
+import guru.qa.niffler.data.DataBase;
 import guru.qa.niffler.data.entity.CategoryEntity;
 import guru.qa.niffler.data.entity.SpendEntity;
+import guru.qa.niffler.data.jpa.EmProvider;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 
 import java.util.List;
 
 public class SpendRepositoryHibernate implements SpendRepository {
+
+    private final EntityManager em = EmProvider.entityManager(DataBase.SPEND);
+
     @Override
     public CategoryEntity createCategory(CategoryEntity category) {
-        return null;
+        em.persist(category);
+        return category;
     }
 
     @Override
