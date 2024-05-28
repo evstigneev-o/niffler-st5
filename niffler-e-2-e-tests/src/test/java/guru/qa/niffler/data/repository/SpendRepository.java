@@ -24,6 +24,8 @@ public interface SpendRepository {
 
     void removeCategory(CategoryEntity category);
 
+    CategoryEntity getCategoryByName(String categoryName);
+
     SpendEntity createSpend(SpendEntity spend);
 
     SpendEntity editSpend(SpendEntity spend);
