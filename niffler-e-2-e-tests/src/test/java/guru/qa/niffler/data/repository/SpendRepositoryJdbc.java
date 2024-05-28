@@ -216,7 +216,7 @@ public class SpendRepositoryJdbc implements SpendRepository {
         spend.setCurrency(CurrencyValues.valueOf(resultSet.getString("currency")));
         spend.setAmount(resultSet.getDouble("amount"));
         spend.setDescription(resultSet.getString("description"));
-        spend.setCategory(UUID.fromString(resultSet.getString("category_id")));
+        spend.setCategory(getCategoryById(UUID.fromString(resultSet.getString("category_id"))));
         return spend;
     }
 
@@ -236,7 +236,7 @@ public class SpendRepositoryJdbc implements SpendRepository {
                 spend.setCurrency(CurrencyValues.valueOf(resultSet.getString("currency")));
                 spend.setAmount(resultSet.getDouble("amount"));
                 spend.setDescription(resultSet.getString("description"));
-                spend.setCategory(UUID.fromString(resultSet.getString("category_id")));
+                spend.setCategory(getCategoryById(UUID.fromString(resultSet.getString("category_id"))));
                 spends.add(spend);
             }
         } catch (SQLException e) {
