@@ -13,6 +13,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class TransactionalEntityManager implements EntityManager {
+
     private final EntityManager delegate;
 
     public TransactionalEntityManager(EntityManager delegate) {
@@ -22,23 +23,23 @@ public class TransactionalEntityManager implements EntityManager {
     private void tx(Consumer<EntityManager> consumer) {
         EntityTransaction entityTransaction = delegate.getTransaction();
         entityTransaction.begin();
-        try{
+        try {
             consumer.accept(delegate);
             entityTransaction.commit();
-        } catch(Exception e){
+        } catch (Exception e) {
             entityTransaction.rollback();
             throw e;
         }
     }
 
-    private <T> T txWithResult(Function<EntityManager,T> consumer) {
+    private <T> T txWithResult(Function<EntityManager, T> consumer) {
         EntityTransaction entityTransaction = delegate.getTransaction();
         entityTransaction.begin();
-        try{
+        try {
             T result = consumer.apply(delegate);
             entityTransaction.commit();
             return result;
-        } catch(Exception e){
+        } catch (Exception e) {
             entityTransaction.rollback();
             throw e;
         }
@@ -46,42 +47,42 @@ public class TransactionalEntityManager implements EntityManager {
 
     @Override
     public void persist(Object entity) {
-        tx(em -> delegate.persist(entity));
+        tx(em -> em.persist(entity));
     }
 
     @Override
     public <T> T merge(T entity) {
-        return txWithResult(em -> delegate.merge(entity));
+        return txWithResult(em -> em.merge(entity));
     }
 
     @Override
     public void remove(Object entity) {
-        tx(em -> delegate.remove(entity));
+        tx(em -> em.remove(entity));
     }
 
     @Override
-    public <T> T find(Class<T> aClass, Object o) {
-        return delegate.find(aClass, o);
+    public <T> T find(Class<T> entityClass, Object primaryKey) {
+        return delegate.find(entityClass, primaryKey);
     }
 
     @Override
-    public <T> T find(Class<T> aClass, Object o, Map<String, Object> map) {
-        return delegate.find(aClass, o, map);
+    public <T> T find(Class<T> entityClass, Object primaryKey, Map<String, Object> properties) {
+        return delegate.find(entityClass, primaryKey, properties);
     }
 
     @Override
-    public <T> T find(Class<T> aClass, Object o, LockModeType lockModeType) {
-        return delegate.find(aClass, o, lockModeType);
+    public <T> T find(Class<T> entityClass, Object primaryKey, LockModeType lockMode) {
+        return delegate.find(entityClass, primaryKey, lockMode);
     }
 
     @Override
-    public <T> T find(Class<T> aClass, Object o, LockModeType lockModeType, Map<String, Object> map) {
-        return delegate.find(aClass, o, lockModeType, map);
+    public <T> T find(Class<T> entityClass, Object primaryKey, LockModeType lockMode, Map<String, Object> properties) {
+        return delegate.find(entityClass, primaryKey, lockMode, properties);
     }
 
     @Override
-    public <T> T getReference(Class<T> aClass, Object o) {
-        return delegate.getReference(aClass, o);
+    public <T> T getReference(Class<T> entityClass, Object primaryKey) {
+        return delegate.getReference(entityClass, primaryKey);
     }
 
     @Override
@@ -90,8 +91,8 @@ public class TransactionalEntityManager implements EntityManager {
     }
 
     @Override
-    public void setFlushMode(FlushModeType flushModeType) {
-        delegate.setFlushMode(flushModeType);
+    public void setFlushMode(FlushModeType flushMode) {
+        delegate.setFlushMode(flushMode);
     }
 
     @Override
@@ -100,33 +101,33 @@ public class TransactionalEntityManager implements EntityManager {
     }
 
     @Override
-    public void lock(Object o, LockModeType lockModeType) {
-        delegate.lock(o, lockModeType);
+    public void lock(Object entity, LockModeType lockMode) {
+        delegate.lock(entity, lockMode);
     }
 
     @Override
-    public void lock(Object o, LockModeType lockModeType, Map<String, Object> map) {
-        delegate.lock(o, lockModeType, map);
+    public void lock(Object entity, LockModeType lockMode, Map<String, Object> properties) {
+        delegate.lock(entity, lockMode, properties);
     }
 
     @Override
-    public void refresh(Object o) {
-        delegate.refresh(o);
+    public void refresh(Object entity) {
+        delegate.refresh(entity);
     }
 
     @Override
-    public void refresh(Object o, Map<String, Object> map) {
-        delegate.refresh(o, map);
+    public void refresh(Object entity, Map<String, Object> properties) {
+        delegate.refresh(entity, properties);
     }
 
     @Override
-    public void refresh(Object o, LockModeType lockModeType) {
-        delegate.refresh(o, lockModeType);
+    public void refresh(Object entity, LockModeType lockMode) {
+        delegate.refresh(entity, lockMode);
     }
 
     @Override
-    public void refresh(Object o, LockModeType lockModeType, Map<String, Object> map) {
-        delegate.refresh(o, lockModeType, map);
+    public void refresh(Object entity, LockModeType lockMode, Map<String, Object> properties) {
+        delegate.refresh(entity, lockMode, properties);
     }
 
     @Override
@@ -135,23 +136,23 @@ public class TransactionalEntityManager implements EntityManager {
     }
 
     @Override
-    public void detach(Object o) {
-        delegate.detach(o);
+    public void detach(Object entity) {
+        delegate.detach(entity);
     }
 
     @Override
-    public boolean contains(Object o) {
-        return delegate.contains(o);
+    public boolean contains(Object entity) {
+        return delegate.contains(entity);
     }
 
     @Override
-    public LockModeType getLockMode(Object o) {
-        return delegate.getLockMode(o);
+    public LockModeType getLockMode(Object entity) {
+        return delegate.getLockMode(entity);
     }
 
     @Override
-    public void setProperty(String s, Object o) {
-        delegate.setProperty(s, o);
+    public void setProperty(String propertyName, Object value) {
+        delegate.setProperty(propertyName, value);
     }
 
     @Override
@@ -160,8 +161,8 @@ public class TransactionalEntityManager implements EntityManager {
     }
 
     @Override
-    public Query createQuery(String s) {
-        return delegate.createQuery(s);
+    public Query createQuery(String qlString) {
+        return delegate.createQuery(qlString);
     }
 
     @Override
@@ -170,63 +171,63 @@ public class TransactionalEntityManager implements EntityManager {
     }
 
     @Override
-    public Query createQuery(CriteriaUpdate criteriaUpdate) {
-        return delegate.createQuery(criteriaUpdate);
+    public Query createQuery(CriteriaUpdate updateQuery) {
+        return delegate.createQuery(updateQuery);
     }
 
     @Override
-    public Query createQuery(CriteriaDelete criteriaDelete) {
-        return delegate.createQuery(criteriaDelete);
+    public Query createQuery(CriteriaDelete deleteQuery) {
+        return delegate.createQuery(deleteQuery);
     }
 
     @Override
-    public <T> TypedQuery<T> createQuery(String s, Class<T> aClass) {
-        return delegate.createQuery(s, aClass);
+    public <T> TypedQuery<T> createQuery(String qlString, Class<T> resultClass) {
+        return delegate.createQuery(qlString, resultClass);
     }
 
     @Override
-    public Query createNamedQuery(String s) {
-        return delegate.createNamedQuery(s);
+    public Query createNamedQuery(String name) {
+        return delegate.createNamedQuery(name);
     }
 
     @Override
-    public <T> TypedQuery<T> createNamedQuery(String s, Class<T> aClass) {
-        return delegate.createNamedQuery(s, aClass);
+    public <T> TypedQuery<T> createNamedQuery(String name, Class<T> resultClass) {
+        return delegate.createNamedQuery(name, resultClass);
     }
 
     @Override
-    public Query createNativeQuery(String s) {
-        return delegate.createNativeQuery(s);
+    public Query createNativeQuery(String sqlString) {
+        return delegate.createNativeQuery(sqlString);
     }
 
     @Override
-    public Query createNativeQuery(String s, Class aClass) {
-        return delegate.createNativeQuery(s, aClass);
+    public Query createNativeQuery(String sqlString, Class resultClass) {
+        return delegate.createNativeQuery(sqlString, resultClass);
     }
 
     @Override
-    public Query createNativeQuery(String s, String s1) {
-        return delegate.createNativeQuery(s, s1);
+    public Query createNativeQuery(String sqlString, String resultSetMapping) {
+        return delegate.createNativeQuery(sqlString, resultSetMapping);
     }
 
     @Override
-    public StoredProcedureQuery createNamedStoredProcedureQuery(String s) {
-        return delegate.createNamedStoredProcedureQuery(s);
+    public StoredProcedureQuery createNamedStoredProcedureQuery(String name) {
+        return delegate.createNamedStoredProcedureQuery(name);
     }
 
     @Override
-    public StoredProcedureQuery createStoredProcedureQuery(String s) {
-        return delegate.createStoredProcedureQuery(s);
+    public StoredProcedureQuery createStoredProcedureQuery(String procedureName) {
+        return delegate.createStoredProcedureQuery(procedureName);
     }
 
     @Override
-    public StoredProcedureQuery createStoredProcedureQuery(String s, Class... classes) {
-        return delegate.createStoredProcedureQuery(s, classes);
+    public StoredProcedureQuery createStoredProcedureQuery(String procedureName, Class... resultClasses) {
+        return delegate.createStoredProcedureQuery(procedureName, resultClasses);
     }
 
     @Override
-    public StoredProcedureQuery createStoredProcedureQuery(String s, String... strings) {
-        return delegate.createStoredProcedureQuery(s, strings);
+    public StoredProcedureQuery createStoredProcedureQuery(String procedureName, String... resultSetMappings) {
+        return delegate.createStoredProcedureQuery(procedureName, resultSetMappings);
     }
 
     @Override
@@ -240,8 +241,8 @@ public class TransactionalEntityManager implements EntityManager {
     }
 
     @Override
-    public <T> T unwrap(Class<T> aClass) {
-        return delegate.unwrap(aClass);
+    public <T> T unwrap(Class<T> cls) {
+        return delegate.unwrap(cls);
     }
 
     @Override
@@ -280,22 +281,22 @@ public class TransactionalEntityManager implements EntityManager {
     }
 
     @Override
-    public <T> EntityGraph<T> createEntityGraph(Class<T> aClass) {
-        return delegate.createEntityGraph(aClass);
+    public <T> EntityGraph<T> createEntityGraph(Class<T> rootType) {
+        return delegate.createEntityGraph(rootType);
     }
 
     @Override
-    public EntityGraph<?> createEntityGraph(String s) {
-        return delegate.createEntityGraph(s);
+    public EntityGraph<?> createEntityGraph(String graphName) {
+        return delegate.createEntityGraph(graphName);
     }
 
     @Override
-    public EntityGraph<?> getEntityGraph(String s) {
-        return delegate.getEntityGraph(s);
+    public EntityGraph<?> getEntityGraph(String graphName) {
+        return delegate.getEntityGraph(graphName);
     }
 
     @Override
-    public <T> List<EntityGraph<? super T>> getEntityGraphs(Class<T> aClass) {
-        return delegate.getEntityGraphs(aClass);
+    public <T> List<EntityGraph<? super T>> getEntityGraphs(Class<T> entityClass) {
+        return delegate.getEntityGraphs(entityClass);
     }
 }

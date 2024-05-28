@@ -32,9 +32,9 @@ public enum EmProvider {
     }
 
     public static EntityManager entityManager(DataBase db) {
-        return new TransactionalEntityManager
+        return new ThreadSafeEntityManager(new TransactionalEntityManager
                 (EmProvider.INSTANCE.computeEmf(db).createEntityManager()
-                );
+                ));
 
     }
 }

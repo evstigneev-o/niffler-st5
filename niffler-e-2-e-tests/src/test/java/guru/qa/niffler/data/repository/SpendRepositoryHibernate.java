@@ -5,7 +5,6 @@ import guru.qa.niffler.data.entity.CategoryEntity;
 import guru.qa.niffler.data.entity.SpendEntity;
 import guru.qa.niffler.data.jpa.EmProvider;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
 
 import java.util.List;
 
@@ -21,27 +20,30 @@ public class SpendRepositoryHibernate implements SpendRepository {
 
     @Override
     public CategoryEntity editCategory(CategoryEntity category) {
-        return null;
+        return em.merge(category);
     }
 
     @Override
     public void removeCategory(CategoryEntity category) {
+        em.remove(category);
 
     }
 
     @Override
     public SpendEntity createSpend(SpendEntity spend) {
-        return null;
+        em.persist(spend);
+        return spend;
     }
 
     @Override
     public SpendEntity editSpend(SpendEntity spend) {
-        return null;
+        em.merge(spend);
+        return spend;
     }
 
     @Override
     public void removeSpend(SpendEntity spend) {
-
+        em.remove(spend);
     }
 
     @Override
