@@ -25,6 +25,9 @@ public class SpendRepositoryHibernate implements SpendRepository {
 
     @Override
     public void removeCategory(CategoryEntity category) {
+        if(!em.contains(category)) {
+            return;
+        }
         em.remove(category);
 
     }
@@ -50,6 +53,9 @@ public class SpendRepositoryHibernate implements SpendRepository {
 
     @Override
     public void removeSpend(SpendEntity spend) {
+        if(!em.contains(spend)) {
+            return;
+        }
         em.remove(spend);
     }
 

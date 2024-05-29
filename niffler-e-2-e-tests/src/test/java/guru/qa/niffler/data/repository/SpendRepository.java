@@ -12,10 +12,10 @@ public interface SpendRepository {
         if ("sjdbc".equals(repo)) {
             return new SpendRepositorySpringJdbc();
         }
-        if ("hibernate".equals(repo)) {
-            return new SpendRepositoryHibernate();
+        if ("jdbc".equals(repo)) {
+            return new SpendRepositoryJdbc();
         }
-        return new SpendRepositoryJdbc();
+        return new SpendRepositoryHibernate();
     }
 
     CategoryEntity createCategory(CategoryEntity category);
