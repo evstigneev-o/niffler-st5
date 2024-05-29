@@ -31,7 +31,7 @@ public class SpendRepositoryHibernate implements SpendRepository {
 
     @Override
     public CategoryEntity getCategoryByName(String categoryName) {
-       return em.createQuery("FROM CategoryEntity c WHERE c.category=:categoryName", CategoryEntity.class)
+       return em.createQuery("FROM CategoryEntity WHERE category=:categoryName", CategoryEntity.class)
                .setParameter("categoryName", categoryName)
                .getSingleResult();
     }

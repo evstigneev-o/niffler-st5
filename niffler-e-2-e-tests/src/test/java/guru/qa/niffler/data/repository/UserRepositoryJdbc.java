@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -167,6 +169,75 @@ public class UserRepositoryJdbc implements UserRepository {
             userPs.setObject(7, user.getId());
             userPs.executeUpdate();
             return user;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public UserAuthEntity getUserFromAuthByUsername(String username) {
+        try (Connection conn = authDataSource.getConnection();
+             PreparedStatement userPs = conn.prepareStatement(
+                     "SELECT * FROM \"user\" WHERE username = ?"
+             )) {
+            userPs.setString(1, username);
+            try (ResultSet resultSet = userPs.executeQuery()) {
+                if (resultSet.next()) {
+                    UserAuthEntity user = new UserAuthEntity();
+                    user.setId(UUID.fromString(resultSet.getString("id")));
+                    user.setUsername(resultSet.getString("username"));
+                    user.setPassword(resultSet.getString("password"));
+                    user.setEnabled(resultSet.getBoolean("enabled"));
+                    user.setAccountNonExpired(resultSet.getBoolean("account_non_expired"));
+                    user.setAccountNonLocked(resultSet.getBoolean("account_non_locked"));
+                    user.setCredentialsNonExpired(resultSet.getBoolean("credentials_non_expired"));
+
+                    try (PreparedStatement authorityPs = conn.prepareStatement(
+                            "SELECT * FROM \"authority\" WHERE user_id = ?"
+                    )) {
+                        authorityPs.setObject(1, user.getId());
+                        try (ResultSet authorityResultSet = authorityPs.executeQuery()) {
+                            List<AuthorityEntity> authorities = new ArrayList<>();
+                            while (authorityResultSet.next()) {
+                                AuthorityEntity authority = new AuthorityEntity();
+                                authority.setId(UUID.fromString(authorityResultSet.getString("id")));
+                                authority.setAuthority(Authority.valueOf(authorityResultSet.getString("authority")));
+                                authority.setUser(user);
+                                authorities.add(authority);
+                            }
+                            user.setAuthorities(authorities);
+                        }
+                    }
+                    return user;
+                }
+                throw new SQLException("User not found with username: " + username);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public UserEntity getUserFromUserdataByUsername(String username) {
+        try (Connection conn = udDataSource.getConnection();
+             PreparedStatement userPs = conn.prepareStatement(
+                     "SELECT * FROM \"user\" WHERE username = ?"
+             )) {
+            userPs.setString(1, username);
+            try (ResultSet resultSet = userPs.executeQuery()) {
+                if (resultSet.next()) {
+                    UserEntity user = new UserEntity();
+                    user.setId(UUID.fromString(resultSet.getString("id")));
+                    user.setUsername(resultSet.getString("username"));
+                    user.setCurrency(CurrencyValues.valueOf(resultSet.getString("currency")));
+                    user.setFirstname(resultSet.getString("firstname"));
+                    user.setSurname(resultSet.getString("surname"));
+                    user.setPhoto(resultSet.getBytes("photo"));
+                    user.setPhotoSmall(resultSet.getBytes("photo_small"));
+                    return user;
+                }
+                throw new SQLException("User not found with username: " + username);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

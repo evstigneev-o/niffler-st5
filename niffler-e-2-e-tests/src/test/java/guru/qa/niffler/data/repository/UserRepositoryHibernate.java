@@ -14,7 +14,7 @@ import java.util.UUID;
 public class UserRepositoryHibernate implements UserRepository {
 
     private final EntityManager authEm = EmProvider.entityManager(DataBase.AUTH);
-    private final EntityManager udhEm = EmProvider.entityManager(DataBase.USERDATA);
+    private final EntityManager udEm = EmProvider.entityManager(DataBase.USERDATA);
     private static final PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
     @Override
@@ -26,7 +26,7 @@ public class UserRepositoryHibernate implements UserRepository {
 
     @Override
     public UserEntity createUserInUserdata(UserEntity user) {
-        udhEm.persist(user);
+        udEm.persist(user);
         return user;
     }
 
@@ -38,12 +38,26 @@ public class UserRepositoryHibernate implements UserRepository {
 
     @Override
     public UserEntity updateUserInUserdata(UserEntity user) {
-        udhEm.merge(user);
+        udEm.merge(user);
         return user;
     }
 
     @Override
+    public UserAuthEntity getUserFromAuthByUsername(String username) {
+        return authEm.createQuery("FROM UserAuthEntity WHERE username=:username", UserAuthEntity.class)
+                .setParameter("username",username)
+                .getSingleResult();
+    }
+
+    @Override
+    public UserEntity getUserFromUserdataByUsername(String username) {
+        return udEm.createQuery("FROM UserEntity WHERE username=:username", UserEntity.class)
+                .setParameter("username",username)
+                .getSingleResult();
+    }
+
+    @Override
     public Optional<UserEntity> findUserInUserdataById(UUID id) {
-        return Optional.ofNullable(udhEm.find(UserEntity.class, id));
+        return Optional.ofNullable(udEm.find(UserEntity.class, id));
     }
 }
