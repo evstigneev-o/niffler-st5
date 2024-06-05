@@ -5,9 +5,15 @@ import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
-public class MainPage {
+public class MainPage extends BasePage<MainPage>{
+
+    private final ReactCalendar calendar = new ReactCalendar();
+
+    private final SelenideElement headerLogo = $(".header__logo");
+
     private final ElementsCollection spendingRows = $(".spendings-table tbody")
             .$$("tr");
     private final SelenideElement deleteSpendingButton = $(".spendings__bulk-actions button");
@@ -35,5 +41,11 @@ public class MainPage {
     public PeoplePage openPeoplePage() {
         peoplePage.click();
         return new PeoplePage();
+    }
+
+    @Override
+    public MainPage checkPageLoaded() {
+        headerLogo.shouldBe(visible);
+        return this;
     }
 }
