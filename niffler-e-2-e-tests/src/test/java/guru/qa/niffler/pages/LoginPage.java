@@ -4,7 +4,7 @@ import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Selenide.$;
 
-public class LoginPage {
+public class LoginPage extends BasePage<LoginPage> {
     private final SelenideElement usernameInput = $("input[name='username']");
     private final SelenideElement passwordInput = $("input[name='password']");
     private final SelenideElement signInButton = $("button[type='submit']");
@@ -29,5 +29,10 @@ public class LoginPage {
         enterPassword(password);
         clickSignInButtonButton();
         return new MainPage();
+    }
+
+    @Override
+    public LoginPage checkPageLoaded() {
+        return this;
     }
 }

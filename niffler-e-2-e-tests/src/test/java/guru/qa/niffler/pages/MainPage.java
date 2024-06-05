@@ -8,11 +8,12 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
-public class MainPage extends BasePage<MainPage>{
+public class MainPage extends BasePage<MainPage> {
+    public static final String URL = CFG.frontUrl() + "main";
 
     private final ReactCalendar calendar = new ReactCalendar();
 
-    private final SelenideElement headerLogo = $(".header__logo");
+    private final SelenideElement headerAvatar = $(".header__avatar");
 
     private final ElementsCollection spendingRows = $(".spendings-table tbody")
             .$$("tr");
@@ -45,7 +46,12 @@ public class MainPage extends BasePage<MainPage>{
 
     @Override
     public MainPage checkPageLoaded() {
-        headerLogo.shouldBe(visible);
+        headerAvatar.shouldBe(visible);
+        return this;
+    }
+
+    public MainPage setDate(String date) {
+        calendar.setDate(date);
         return this;
     }
 }

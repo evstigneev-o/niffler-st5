@@ -6,6 +6,10 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class ReactCalendar extends BaseComponent<ReactCalendar> {
 
+    private final String inputContainer = ".react-datepicker__input-container";
+
+    private final  SelenideElement dateInput = $(inputContainer).$("[type=text]");
+
     public ReactCalendar(SelenideElement self) {
         super(self);
     }
@@ -15,7 +19,8 @@ public class ReactCalendar extends BaseComponent<ReactCalendar> {
     }
 
     public ReactCalendar setDate(String date) {
-//        self.$(...) // строка с датой..
+        self.click();
+        dateInput.setValue(date);
         return this;
     }
 }
