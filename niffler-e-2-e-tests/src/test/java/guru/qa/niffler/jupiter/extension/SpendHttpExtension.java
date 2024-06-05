@@ -40,7 +40,7 @@ public class SpendHttpExtension extends AbstractSpendExtension{
     }
 
     @Override
-    protected void removeSpend(SpendJson spend) {
+    protected void removeSpend(SpendJson spend){
         spendApiClient.removeSpend(spend.username(), List.of(spend.id().toString()));
     }
 }

@@ -4,7 +4,6 @@ import guru.qa.niffler.data.entity.CategoryEntity;
 import guru.qa.niffler.data.repository.SpendRepository;
 import guru.qa.niffler.model.CategoryJson;
 
-import static guru.qa.niffler.data.entity.CategoryEntity.fromJson;
 import static guru.qa.niffler.model.CategoryJson.fromEntity;
 
 public class CategoryJdbcExtension extends AbstractCategoryExtension {

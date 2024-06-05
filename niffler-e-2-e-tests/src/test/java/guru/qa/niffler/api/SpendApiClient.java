@@ -1,7 +1,6 @@
 package guru.qa.niffler.api;
 
 import guru.qa.niffler.model.SpendJson;
-import retrofit2.Call;
 
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class SpendApiClient extends ApiClient {
                 .body();
     }
 
-    public Call<SpendJson> removeSpend(String username, List<String> ids) {
+    public SpendJson removeSpend(String username, List<String> ids) {
         return null;
     }
 }

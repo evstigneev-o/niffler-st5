@@ -1,19 +1,15 @@
 package guru.qa.niffler.test;
 
 import com.codeborne.selenide.Selenide;
-import guru.qa.niffler.data.entity.*;
+import guru.qa.niffler.data.entity.UserEntity;
 import guru.qa.niffler.data.repository.UserRepository;
 import guru.qa.niffler.data.repository.UserRepositoryHibernate;
 import guru.qa.niffler.jupiter.annotation.TestUser;
 import guru.qa.niffler.jupiter.extension.DbCreateUserExtension;
 import guru.qa.niffler.model.UserJson;
 import guru.qa.niffler.pages.WelcomePage;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
 
 @ExtendWith(DbCreateUserExtension.class)
 public class LoginTest extends BaseWebTest {
