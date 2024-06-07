@@ -2,6 +2,9 @@ package guru.qa.niffler.pages;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import guru.qa.niffler.pages.components.ReactCalendar;
+
+import java.util.Date;
 
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.text;
@@ -50,7 +53,7 @@ public class MainPage extends BasePage<MainPage> {
         return this;
     }
 
-    public MainPage setDate(String date) {
+    public MainPage setDate(Date date) {
         calendar.setDate(date);
         return this;
     }

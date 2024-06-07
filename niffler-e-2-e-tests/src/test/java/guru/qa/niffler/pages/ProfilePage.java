@@ -23,7 +23,7 @@ public class ProfilePage extends BasePage<ProfilePage> {
         return this;
     }
 
-    //@Override
+    @Override
     public ProfilePage checkPageLoaded() {
         avatar.should(visible);
         return this;

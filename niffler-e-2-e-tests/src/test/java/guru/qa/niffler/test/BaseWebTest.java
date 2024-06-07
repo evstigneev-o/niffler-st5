@@ -3,7 +3,6 @@ package guru.qa.niffler.test;
 import com.codeborne.selenide.Configuration;
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.jupiter.annotation.meta.WebHttpTest;
-import guru.qa.niffler.jupiter.annotation.meta.WebJdbcTest;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 @WebHttpTest
