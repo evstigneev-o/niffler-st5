@@ -4,6 +4,7 @@ import guru.qa.niffler.data.DataBase;
 import guru.qa.niffler.data.entity.CategoryEntity;
 import guru.qa.niffler.data.entity.SpendEntity;
 import guru.qa.niffler.data.jdbc.DataSourceProvider;
+import guru.qa.niffler.data.sjdbc.CategoryEntityRowMapper;
 import guru.qa.niffler.data.sjdbc.SpendEntityRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -51,6 +52,11 @@ public class SpendRepositorySpringJdbc implements SpendRepository {
                 "DELETE FROM category WHERE id = ?",
                 category.getId()
         );
+    }
+
+    @Override
+    public CategoryEntity getCategoryByName(String categoryName) {
+        return jdbcTemplate.query("SELECT * FROM category WHERE category = ?", CategoryEntityRowMapper.instance,categoryName).getFirst();
     }
 
     @Override

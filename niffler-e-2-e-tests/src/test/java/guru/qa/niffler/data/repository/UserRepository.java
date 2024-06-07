@@ -26,6 +26,10 @@ public interface UserRepository {
 
     UserEntity updateUserInUserdata(UserEntity user);
 
+    UserAuthEntity getUserFromAuthByUsername(String username);
+
+    UserEntity getUserFromUserdataByUsername(String username);
+
     Optional<UserEntity> findUserInUserdataById(UUID id);
 
 }
