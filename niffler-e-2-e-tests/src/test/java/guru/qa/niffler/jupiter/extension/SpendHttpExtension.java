@@ -8,17 +8,6 @@ import java.util.Objects;
 
 public class SpendHttpExtension extends AbstractSpendExtension{
 
-//    private static final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-//            .build();
-//
-//    private final Retrofit retrofit = new Retrofit.Builder()
-//            .client(okHttpClient)
-//            .baseUrl("http://127.0.0.1:8093/")
-//            .addConverterFactory(JacksonConverterFactory.create())
-//            .build();
-//
-//    private final SpendApi spendApi = retrofit.create(SpendApi.class);
-
     private final SpendApiClient spendApiClient = new SpendApiClient();
 
     @Override
