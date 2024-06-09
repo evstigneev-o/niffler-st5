@@ -5,6 +5,8 @@ import guru.qa.niffler.data.entity.CategoryEntity;
 import guru.qa.niffler.data.entity.SpendEntity;
 import guru.qa.niffler.data.jpa.EmProvider;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import wiremock.net.minidev.json.JSONUtil;
 
 import java.util.List;
 
@@ -25,18 +27,15 @@ public class SpendRepositoryHibernate implements SpendRepository {
 
     @Override
     public void removeCategory(CategoryEntity category) {
-        if(!em.contains(category)) {
-            return;
-        }
         em.remove(category);
 
     }
 
     @Override
     public CategoryEntity getCategoryByName(String categoryName) {
-       return em.createQuery("FROM CategoryEntity WHERE category=:categoryName", CategoryEntity.class)
-               .setParameter("categoryName", categoryName)
-               .getSingleResult();
+        return em.createQuery("FROM CategoryEntity WHERE category=:categoryName", CategoryEntity.class)
+                .setParameter("categoryName", categoryName)
+                .getSingleResult();
     }
 
     @Override
@@ -53,9 +52,6 @@ public class SpendRepositoryHibernate implements SpendRepository {
 
     @Override
     public void removeSpend(SpendEntity spend) {
-        if(!em.contains(spend)) {
-            return;
-        }
         em.remove(spend);
     }
 
