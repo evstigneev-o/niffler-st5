@@ -5,8 +5,6 @@ import guru.qa.niffler.data.entity.CategoryEntity;
 import guru.qa.niffler.data.entity.SpendEntity;
 import guru.qa.niffler.data.jpa.EmProvider;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
-import wiremock.net.minidev.json.JSONUtil;
 
 import java.util.List;
 
