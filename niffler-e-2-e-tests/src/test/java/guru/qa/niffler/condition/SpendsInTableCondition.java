@@ -52,14 +52,45 @@ public class SpendsInTableCondition extends WebElementsCondition {
                 );
             }
 
-            boolean amountResult = td.get(2).getText().contains(
-                    String.valueOf(expectedSpendForRow.amount().intValue())
-            );
+            boolean amountResult = Double.valueOf(td.get(2).getText()).equals(expectedSpendForRow.amount());
 
             if (!amountResult) {
                 return CheckResult.rejected(
                         "Spending table: amount mismatch",
                         td.get(2).getText()
+                );
+            }
+
+            boolean currencyResult = td.get(3).getText().contains(
+                    expectedSpendForRow.currency().name()
+            );
+
+            if (!currencyResult) {
+                return CheckResult.rejected(
+                        "Spending table: currency mismatch",
+                        td.get(3).getText()
+                );
+            }
+
+            boolean categoryResult = td.get(4).getText().contains(
+                    expectedSpendForRow.category()
+            );
+
+            if (!categoryResult) {
+                return CheckResult.rejected(
+                        "Spending table: category mismatch",
+                        td.get(4).getText()
+                );
+            }
+
+            boolean descriptionResult = td.get(5).getText().contains(
+                    expectedSpendForRow.description()
+            );
+
+            if (!descriptionResult) {
+                return CheckResult.rejected(
+                        "Spending table: description mismatch",
+                        td.get(5).getText()
                 );
             }
 
