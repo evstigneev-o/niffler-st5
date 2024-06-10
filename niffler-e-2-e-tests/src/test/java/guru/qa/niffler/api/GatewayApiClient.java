@@ -26,8 +26,8 @@ public class GatewayApiClient extends ApiClient {
         return gatewayApi.getCurrencies(bearerToken).execute().body();
     }
 
-    public List<UserJson> getFriends(String bearerToken, String searchQuery) throws Exception {
-        return gatewayApi.getFriends(bearerToken, searchQuery).execute().body();
+    public List<UserJson> getFriends(String bearerToken) throws Exception {
+        return gatewayApi.getFriends(bearerToken).execute().body();
     }
 
     public void removeFriend(String bearerToken, String targetUsername) throws Exception {

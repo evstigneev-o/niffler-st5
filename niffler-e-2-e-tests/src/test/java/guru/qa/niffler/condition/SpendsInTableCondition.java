@@ -61,7 +61,7 @@ public class SpendsInTableCondition extends WebElementsCondition {
                 );
             }
 
-            boolean currencyResult = td.get(3).getText().contains(
+            boolean currencyResult = td.get(4).getText().contains(
                     expectedSpendForRow.currency().name()
             );
 
@@ -93,7 +93,6 @@ public class SpendsInTableCondition extends WebElementsCondition {
                         td.get(5).getText()
                 );
             }
-
         }
         return CheckResult.accepted();
     }

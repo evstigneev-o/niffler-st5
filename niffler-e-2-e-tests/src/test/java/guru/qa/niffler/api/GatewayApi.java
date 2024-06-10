@@ -18,8 +18,7 @@ public interface GatewayApi {
     Call<List<CurrencyJson>> getCurrencies(@Header("Authorization") String bearerToken);
 
     @GET("/api/friends/all")
-    Call<List<UserJson>> getFriends(@Header("Authorization") String bearerToken,
-                                    @Query("searchQuery") String searchQuery);
+    Call<List<UserJson>> getFriends(@Header("Authorization") String bearerToken);
 
     @DELETE("/api/friends/remove")
     Call<Void> removeFriend(

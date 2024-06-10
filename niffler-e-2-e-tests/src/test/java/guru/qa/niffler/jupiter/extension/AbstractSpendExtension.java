@@ -101,9 +101,11 @@ public abstract class AbstractSpendExtension implements BeforeEachCallback, Afte
     @Override
     @SuppressWarnings("unchecked")
     public void afterEach(ExtensionContext context) throws Exception {
-        context.getStore(NAMESPACE)
-                .get(context.getUniqueId(), List.class)
-                .forEach(spend -> removeSpend((SpendJson) spend));
+        List<SpendJson> spends = context.getStore(NAMESPACE)
+                .get(context.getUniqueId(), List.class);
+        if (spends != null) {
+            spends.forEach(this::removeSpend);
+        } ;
     }
 
     @Override

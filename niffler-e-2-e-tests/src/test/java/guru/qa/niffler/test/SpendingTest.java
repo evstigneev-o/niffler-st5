@@ -44,7 +44,7 @@ public class SpendingTest extends BaseWebTest {
             ),
             @GenerateSpend(
                     description = "QA.GURU Advanced 5 - написание диплома",
-                    amount = 1.00,
+                    amount = 1.34,
                     currency = CurrencyValues.RUB
             )
     })

@@ -24,6 +24,8 @@ public class MainPage extends BasePage<MainPage> {
 
     private final SelenideElement peoplePage = $("[data-tooltip-id='people']");
 
+    private final SelenideElement friendsPage = $("[data-tooltip-id='friends']");
+
     public SelenideElement findSpendingByDescription(String description) {
         return spendingRows.find(text(description));
     }
@@ -45,6 +47,11 @@ public class MainPage extends BasePage<MainPage> {
     public PeoplePage openPeoplePage() {
         peoplePage.click();
         return new PeoplePage();
+    }
+
+    public FriendsPage openFriendsPage() {
+        friendsPage.click();
+        return new FriendsPage();
     }
 
     @Override
