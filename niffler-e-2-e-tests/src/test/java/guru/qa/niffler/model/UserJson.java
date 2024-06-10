@@ -1,9 +1,11 @@
 package guru.qa.niffler.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.javafaker.Faker;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record UserJson(
         @JsonProperty("username")
         String username,
