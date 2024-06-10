@@ -21,4 +21,9 @@ public class LocalConfig implements Config {
     public String dbHost() {
         return "localhost";
     }
+
+    @Override
+    public String gatewayUrl() {
+        return "http://127.0.0.1:8090/";
+    }
 }

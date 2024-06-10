@@ -9,7 +9,7 @@ public class GatewayApiClient extends ApiClient {
     private final GatewayApi gatewayApi;
 
     public GatewayApiClient() {
-        super(CFG.frontUrl());
+        super(CFG.gatewayUrl());
         this.gatewayApi = retrofit.create(GatewayApi.class);
     }
 
@@ -26,8 +26,8 @@ public class GatewayApiClient extends ApiClient {
         return gatewayApi.getCurrencies(bearerToken).execute().body();
     }
 
-    public List<UserJson> getFriends(String bearerToken, String searchQuery) throws Exception {
-        return gatewayApi.getFriends(bearerToken, searchQuery).execute().body();
+    public List<UserJson> getFriends(String bearerToken) throws Exception {
+        return gatewayApi.getFriends(bearerToken).execute().body();
     }
 
     public void removeFriend(String bearerToken, String targetUsername) throws Exception {
@@ -39,7 +39,7 @@ public class GatewayApiClient extends ApiClient {
     }
 
     public List<UserJson> getOutcomeInvitations(String authToken, String searchQuery) throws Exception {
-        return gatewayApi.getOutcomeInvitations(authToken, searchQuery).execute().body();
+        return gatewayApi.getOutcomeInvitations(authToken).execute().body();
     }
 
     public UserJson sendInvitation(String bearerToken, FriendJson friend) throws Exception {
@@ -83,7 +83,7 @@ public class GatewayApiClient extends ApiClient {
     }
 
     public List<UserJson> getAllUsers(String bearerToken, String searchQuery) throws Exception {
-        return gatewayApi.getAllUsers(bearerToken, searchQuery).execute().body();
+        return gatewayApi.getAllUsers(bearerToken).execute().body();
     }
 
     public UserJson updateUserInfo(String bearerToken, UserJson user) throws Exception {

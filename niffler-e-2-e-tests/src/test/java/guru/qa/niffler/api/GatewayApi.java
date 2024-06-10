@@ -5,6 +5,7 @@ import retrofit2.Call;
 import retrofit2.http.*;
 
 import java.util.List;
+
 public interface GatewayApi {
 
     @GET("/api/categories/all")
@@ -18,8 +19,7 @@ public interface GatewayApi {
     Call<List<CurrencyJson>> getCurrencies(@Header("Authorization") String bearerToken);
 
     @GET("/api/friends/all")
-    Call<List<UserJson>> getFriends(@Header("Authorization") String bearerToken,
-                                    @Query("searchQuery") String searchQuery);
+    Call<List<UserJson>> getFriends(@Header("Authorization") String bearerToken);
 
     @DELETE("/api/friends/remove")
     Call<Void> removeFriend(
@@ -35,8 +35,7 @@ public interface GatewayApi {
 
     @GET("/api/invitations/outcome")
     Call<List<UserJson>> getOutcomeInvitations(
-            @Header("Authorization") String bearerToken,
-            @Query("searchQuery") String searchQuery
+            @Header("Authorization") String bearerToken
     );
 
     @POST("/api/invitations/send")
@@ -84,6 +83,7 @@ public interface GatewayApi {
             @Header("Authorization") String bearerToken,
             @Query("ids") List<String> ids
     );
+
     @GET("api/stat/total")
     Call<List<StatisticJson>> getTotalStatistic(
             @Header("Authorization") String bearerToken,
@@ -96,8 +96,7 @@ public interface GatewayApi {
 
     @GET("/api/user/all")
     Call<List<UserJson>> getAllUsers(
-            @Header("Authorization") String bearerToken,
-            @Query("searchQuery") String searchQuery
+            @Header("Authorization") String bearerToken
     );
 
     @POST("/api/user/update")

@@ -21,4 +21,9 @@ public class DockerConfig implements Config {
     public String dbHost() {
         return "niffler-all-db";
     }
+
+    @Override
+    public String gatewayUrl() {
+        return "http:/gateway.niffler.dc:8090/";
+    }
 }
