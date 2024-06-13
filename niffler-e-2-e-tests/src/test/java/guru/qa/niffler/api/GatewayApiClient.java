@@ -34,11 +34,11 @@ public class GatewayApiClient extends ApiClient {
         gatewayApi.removeFriend(bearerToken, targetUsername).execute();
     }
 
-    public List<UserJson> getIncomeInvitations(String bearerToken, String searchQuery) throws Exception {
-        return gatewayApi.getIncomeInvitations(bearerToken, searchQuery).execute().body();
+    public List<UserJson> getIncomeInvitations(String bearerToken) throws Exception {
+        return gatewayApi.getIncomeInvitations(bearerToken).execute().body();
     }
 
-    public List<UserJson> getOutcomeInvitations(String authToken, String searchQuery) throws Exception {
+    public List<UserJson> getOutcomeInvitations(String authToken) throws Exception {
         return gatewayApi.getOutcomeInvitations(authToken).execute().body();
     }
 
@@ -82,7 +82,7 @@ public class GatewayApiClient extends ApiClient {
         return gatewayApi.getCurrentUser(bearerToken).execute().body();
     }
 
-    public List<UserJson> getAllUsers(String bearerToken, String searchQuery) throws Exception {
+    public List<UserJson> getAllUsers(String bearerToken) throws Exception {
         return gatewayApi.getAllUsers(bearerToken).execute().body();
     }
 

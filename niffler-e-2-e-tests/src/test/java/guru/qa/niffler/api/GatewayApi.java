@@ -29,8 +29,7 @@ public interface GatewayApi {
 
     @GET("/api/invitations/income")
     Call<List<UserJson>> getIncomeInvitations(
-            @Header("Authorization") String bearerToken,
-            @Query("searchQuery") String searchQuery
+            @Header("Authorization") String bearerToken
     );
 
     @GET("/api/invitations/outcome")
