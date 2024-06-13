@@ -1,10 +1,8 @@
 package guru.qa.niffler.pages.components;
 
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.Keys;
 
-import java.security.Key;
 import java.time.Month;
 import java.util.Calendar;
 import java.util.Date;
@@ -35,6 +33,11 @@ public class ReactCalendar extends BaseComponent<ReactCalendar> {
         setMonth(calendar.get(Calendar.MONTH));
         setDayOfMonth(calendar.get(Calendar.DATE));
 
+    }
+
+    public void setDateByInput(String date) {
+        inputContainer.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
+        inputContainer.setValue(date);
     }
 
     private void setYear(int year) {
