@@ -9,18 +9,19 @@ import static java.lang.System.lineSeparator;
 
 public class UserTableMismatchException extends UIAssertionError {
     public UserTableMismatchException(String message, CollectionSource collection,
-                                  String expectedUser, String actualElementText,
+                                  String expectedValue, String actualElementText,
                                   @Nullable String explanation, long timeoutMs,
                                   @Nullable Throwable cause) {
         super(
                 collection.driver(),
                 message +
                         lineSeparator() + "Actual: " + actualElementText +
-                        lineSeparator() + "Expected: " + expectedUser +
+                        lineSeparator() + "Expected: " + expectedValue +
                         (explanation == null ? "" : lineSeparator() + "Because: " + explanation) +
                         lineSeparator() + "Collection: " + collection.description(),
-                expectedUser, actualElementText,
+                expectedValue, actualElementText,
                 cause,
                 timeoutMs);
     }
+
 }

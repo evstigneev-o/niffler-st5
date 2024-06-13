@@ -93,7 +93,7 @@ public interface GatewayApi {
     @GET("/api/user/current")
     Call<UserJson> getCurrentUser(@Header("Authorization") String bearerToken);
 
-    @GET("/api/user/all")
+    @GET("/api/users/all")
     Call<List<UserJson>> getAllUsers(
             @Header("Authorization") String bearerToken
     );

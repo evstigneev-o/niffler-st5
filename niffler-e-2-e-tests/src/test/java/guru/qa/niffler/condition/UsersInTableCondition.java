@@ -4,6 +4,7 @@ import com.codeborne.selenide.CheckResult;
 import com.codeborne.selenide.Driver;
 import com.codeborne.selenide.WebElementsCondition;
 import com.codeborne.selenide.impl.CollectionSource;
+import guru.qa.niffler.model.FriendState;
 import guru.qa.niffler.model.UserJson;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -13,7 +14,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class UsersInTableCondition extends WebElementsCondition {
-    private String bug;
+    private String actualResult;
     private final UserJson[] expectedUsers;
 
     public UsersInTableCondition(UserJson[] expectedUsers) {
@@ -25,8 +26,8 @@ public class UsersInTableCondition extends WebElementsCondition {
     public CheckResult check(Driver driver, List<WebElement> elements) {
         if (elements.size() != expectedUsers.length) {
             return CheckResult.rejected(
-                    "User table size mismatch",
-                    String.valueOf(elements.size())
+                    "User table size mismatch" + expectedUsers.length,
+                    actualResult = String.valueOf(elements.size())
             );
         }
 
@@ -39,21 +40,21 @@ public class UsersInTableCondition extends WebElementsCondition {
             boolean avatarResult;
             String actualPhoto = td.get(0).findElement(By.cssSelector("img")).getAttribute("src");
             String expectedPhoto = expectedUserForRow.photoSmall();
-            if(actualPhoto.contains("images/niffler_avatar.jpeg")){
+            if (actualPhoto.contains("images/niffler_avatar.jpeg")) {
                 avatarResult = expectedPhoto == null;
             } else avatarResult = actualPhoto.equals(expectedPhoto);
-            if(!avatarResult){
+            if (!avatarResult) {
                 return CheckResult.rejected(
-                        "User table: avatar mismatch " + expectedPhoto,null
-                       // actualPhoto
+                        "User table: avatar mismatch " + expectedPhoto,
+                        actualResult = actualPhoto
                 );
             }
 
             boolean usernameResult = td.get(1).getText().equals(expectedUserForRow.username());
             if (!usernameResult) {
                 return CheckResult.rejected(
-                        "User table: username mismatch",null
-                        //bug = td.get(1).getText()
+                        "User table: username mismatch",
+                        actualResult = td.get(1).getText()
                 );
             }
 
@@ -66,14 +67,26 @@ public class UsersInTableCondition extends WebElementsCondition {
             }
             if (!nameResult) {
                 return CheckResult.rejected(
-                        "User table: user mismatch",null
-                        //bug = td.get(2).getText()
+                        "User table: user mismatch",
+                        actualResult = actualName
                 );
             }
-            var s = td.get(3);
-            //var actionsResult = td.get(3).getText().equals(expectedUserForRow.friendState());
-            int av = 1;
 
+            boolean actionsResult;
+            String actualActions = getActions(td.get(3));
+            actionsResult = switch (actualActions) {
+                case "You are friends" -> expectedUserForRow.friendState().equals(FriendState.INVITE_RECEIVED);
+                case "Add friend" -> expectedUserForRow.friendState() == null;
+                case "Pending invitation" -> expectedUserForRow.friendState().equals(FriendState.INVITE_SENT);
+                case "Submit invitation" -> expectedUserForRow.friendState().equals(FriendState.FRIEND);
+                default -> false;
+            };
+            if (!actionsResult) {
+                return CheckResult.rejected(
+                        "User table: actions mismatch",
+                        actualResult = actualActions
+                );
+            }
 
         }
         return CheckResult.accepted();
@@ -83,12 +96,19 @@ public class UsersInTableCondition extends WebElementsCondition {
     public void fail(CollectionSource collection, CheckResult lastCheckResult, @Nullable Exception cause, long timeoutMs) {
         String actualElementText = lastCheckResult.getActualValue();
 
-        String message = lastCheckResult.getMessageOrElse(() -> "User mismatch");
-        throw new UserTableMismatchException(message, collection, bug, actualElementText, explanation, timeoutMs, cause);
+        String message = lastCheckResult.getMessageOrElse(() -> "Table mismatch");
+        throw new UserTableMismatchException(message, collection, actualResult, actualElementText, explanation, timeoutMs, cause);
     }
 
     @Override
     public String toString() {
         return "";
     }
+
+    private String getActions(WebElement row) {
+        return row.getText().isBlank() ?
+                row.findElement(By.cssSelector("div[data-tooltip-id]")).getAttribute("data-tooltip-content")
+                : row.getText();
+    }
+
 }
