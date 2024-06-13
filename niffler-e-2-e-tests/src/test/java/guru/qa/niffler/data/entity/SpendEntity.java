@@ -40,8 +40,8 @@ public class SpendEntity implements Serializable {
     @Column(nullable = false)
     private String description;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
     private CategoryEntity category;
 
     @Override

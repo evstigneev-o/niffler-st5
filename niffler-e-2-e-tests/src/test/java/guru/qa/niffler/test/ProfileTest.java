@@ -3,6 +3,8 @@ package guru.qa.niffler.test;
 import guru.qa.niffler.pages.ProfilePage;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 public class ProfileTest extends BaseWebTest{
@@ -13,5 +15,6 @@ public class ProfileTest extends BaseWebTest{
                 .setName()
                 .checkMessage("Profile successfully updated")
                 .checkFields();
+        $(".dsa").shouldHave(text(""));
     }
 }
