@@ -26,7 +26,7 @@ public class SpendingTest extends BaseWebTest {
     @BeforeEach
     void doLogin() {
         // createSpend
-        Selenide.open(WelcomePage.URL,WelcomePage.class)
+        Selenide.open(WelcomePage.URL, WelcomePage.class)
                 .openLoginPage()
                 .signIn(USERNAME, PASSWORD);
     }
@@ -68,12 +68,12 @@ public class SpendingTest extends BaseWebTest {
             ),
             @GenerateSpend(
                     description = "QA.GURU Advanced 5 - написание диплома",
-                    amount = 1.00,
+                    amount = 1.30,
                     currency = CurrencyValues.RUB
             )
     })
     @Test
-    void checkSpendingContent(SpendJson[] spends){
+    void checkSpendingContent(SpendJson[] spends) {
         ElementsCollection spendings = $(".spendings-table tbody")
                 .$$("tr");
         spendings.get(0).scrollIntoView(true);

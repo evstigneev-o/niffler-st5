@@ -15,8 +15,8 @@ public class SpendMismatchException extends UIAssertionError {
         super(
                 collection.driver(),
                 message +
-                        lineSeparator() + "Actual: " + actualElementText +
-                        lineSeparator() + "Expected: " + expectedSpend +
+                        lineSeparator() + "Actual spendings: \n" + actualElementText +
+                        lineSeparator() + "Expected spendings: \n" + expectedSpend +
                         (explanation == null ? "" : lineSeparator() + "Because: " + explanation) +
                         lineSeparator() + "Collection: " + collection.description(),
                 expectedSpend, actualElementText,
