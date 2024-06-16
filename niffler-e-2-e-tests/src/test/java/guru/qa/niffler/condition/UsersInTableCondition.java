@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class UsersInTableCondition extends WebElementsCondition {
-    private String expectedResult; // Новое поле для хранения ожидаемого значения
+    private String expectedResult;
     private final UserJson[] expectedUsers;
 
     public UsersInTableCondition(UserJson[] expectedUsers) {
