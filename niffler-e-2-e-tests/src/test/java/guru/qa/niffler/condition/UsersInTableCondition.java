@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class UsersInTableCondition extends WebElementsCondition {
-    private String actualResult;
+    private String expectedResult; // Новое поле для хранения ожидаемого значения
     private final UserJson[] expectedUsers;
 
     public UsersInTableCondition(UserJson[] expectedUsers) {
@@ -24,10 +24,13 @@ public class UsersInTableCondition extends WebElementsCondition {
     @Nonnull
     @Override
     public CheckResult check(Driver driver, List<WebElement> elements) {
+        String actualResult;
         if (elements.size() != expectedUsers.length) {
+            expectedResult = String.valueOf(expectedUsers.length);
+            actualResult = String.valueOf(elements.size());
             return CheckResult.rejected(
-                    "User table size mismatch" + expectedUsers.length,
-                    actualResult = String.valueOf(elements.size())
+                    "User table size mismatch",
+                    actualResult
             );
         }
 
@@ -44,17 +47,21 @@ public class UsersInTableCondition extends WebElementsCondition {
                 avatarResult = expectedPhoto == null;
             } else avatarResult = actualPhoto.equals(expectedPhoto);
             if (!avatarResult) {
+                expectedResult = expectedPhoto;
+                actualResult = actualPhoto;
                 return CheckResult.rejected(
-                        "User table: avatar mismatch " + expectedPhoto,
-                        actualResult = actualPhoto
+                        "User table: avatar mismatch",
+                        actualResult
                 );
             }
 
             boolean usernameResult = td.get(1).getText().equals(expectedUserForRow.username());
             if (!usernameResult) {
+                expectedResult = expectedUserForRow.username();
+                actualResult = td.get(1).getText();
                 return CheckResult.rejected(
                         "User table: username mismatch",
-                        actualResult = td.get(1).getText()
+                        actualResult
                 );
             }
 
@@ -66,28 +73,31 @@ public class UsersInTableCondition extends WebElementsCondition {
                 nameResult = actualName.equals(expectedUserForRow.firstname() + " " + expectedUserForRow.surname());
             }
             if (!nameResult) {
+                expectedResult = expectedUserForRow.firstname() + " " + expectedUserForRow.surname();
+                actualResult = actualName;
                 return CheckResult.rejected(
-                        "User table: user mismatch",
-                        actualResult = actualName
+                        "User table: name mismatch",
+                        actualResult
                 );
             }
 
             boolean actionsResult;
             String actualActions = getActions(td.get(3));
             actionsResult = switch (actualActions) {
-                case "You are friends" -> expectedUserForRow.friendState().equals(FriendState.INVITE_RECEIVED);
+                case "You are friends" -> expectedUserForRow.friendState().equals(FriendState.FRIEND);
                 case "Add friend" -> expectedUserForRow.friendState() == null;
                 case "Pending invitation" -> expectedUserForRow.friendState().equals(FriendState.INVITE_SENT);
-                case "Submit invitation" -> expectedUserForRow.friendState().equals(FriendState.FRIEND);
+                case "Submit invitation" -> expectedUserForRow.friendState().equals(FriendState.INVITE_RECEIVED);
                 default -> false;
             };
             if (!actionsResult) {
+                expectedResult = expectedUserForRow.friendState().toString();
+                actualResult = actualActions;
                 return CheckResult.rejected(
                         "User table: actions mismatch",
-                        actualResult = actualActions
+                        actualResult
                 );
             }
-
         }
         return CheckResult.accepted();
     }
@@ -97,7 +107,7 @@ public class UsersInTableCondition extends WebElementsCondition {
         String actualElementText = lastCheckResult.getActualValue();
 
         String message = lastCheckResult.getMessageOrElse(() -> "Table mismatch");
-        throw new UserTableMismatchException(message, collection, actualResult, actualElementText, explanation, timeoutMs, cause);
+        throw new UserTableMismatchException(message, collection, expectedResult, actualElementText, explanation, timeoutMs, cause);
     }
 
     @Override
