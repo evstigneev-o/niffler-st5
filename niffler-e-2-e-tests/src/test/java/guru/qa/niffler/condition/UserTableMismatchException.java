@@ -7,20 +7,21 @@ import javax.annotation.Nullable;
 
 import static java.lang.System.lineSeparator;
 
-public class SpendMismatchException extends UIAssertionError {
-    public SpendMismatchException(String message, CollectionSource collection,
-                                  String expectedSpend, String actualElementText,
+public class UserTableMismatchException extends UIAssertionError {
+    public UserTableMismatchException(String message, CollectionSource collection,
+                                  String expectedValue, String actualElementText,
                                   @Nullable String explanation, long timeoutMs,
                                   @Nullable Throwable cause) {
         super(
                 collection.driver(),
                 message +
-                        lineSeparator() + "Actual spendings: \n" + actualElementText +
-                        lineSeparator() + "Expected spendings: \n" + expectedSpend +
+                        lineSeparator() + "Actual: " + actualElementText +
+                        lineSeparator() + "Expected: " + expectedValue +
                         (explanation == null ? "" : lineSeparator() + "Because: " + explanation) +
                         lineSeparator() + "Collection: " + collection.description(),
-                expectedSpend, actualElementText,
+                expectedValue, actualElementText,
                 cause,
                 timeoutMs);
     }
+
 }

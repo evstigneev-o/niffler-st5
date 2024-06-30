@@ -11,8 +11,10 @@ import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Arrays;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
 
 public class SpendsInTableCondition extends WebElementsCondition {
 
@@ -52,9 +54,7 @@ public class SpendsInTableCondition extends WebElementsCondition {
                 );
             }
 
-            boolean amountResult = td.get(2).getText().contains(
-                    String.valueOf(expectedSpendForRow.amount().intValue())
-            );
+            boolean amountResult = Double.valueOf(td.get(2).getText()).equals(expectedSpendForRow.amount());
 
             if (!amountResult) {
                 return CheckResult.rejected(
@@ -63,20 +63,82 @@ public class SpendsInTableCondition extends WebElementsCondition {
                 );
             }
 
+            boolean currencyResult = td.get(4).getText().contains(
+                    expectedSpendForRow.currency().name()
+            );
+
+            if (!currencyResult) {
+                return CheckResult.rejected(
+                        "Spending table: currency mismatch",
+                        td.get(3).getText()
+                );
+            }
+
+            boolean categoryResult = td.get(4).getText().contains(
+                    expectedSpendForRow.category()
+            );
+
+            if (!categoryResult) {
+                return CheckResult.rejected(
+                        "Spending table: category mismatch",
+                        td.get(4).getText()
+                );
+            }
+
+            boolean descriptionResult = td.get(5).getText().contains(
+                    expectedSpendForRow.description()
+            );
+
+            if (!descriptionResult) {
+                return CheckResult.rejected(
+                        "Spending table: description mismatch",
+                        td.get(5).getText()
+                );
+            }
         }
         return CheckResult.accepted();
     }
 
     @Override
     public void fail(CollectionSource collection, CheckResult lastCheckResult, @Nullable Exception cause, long timeoutMs) {
-        String actualElementText = lastCheckResult.getActualValue();
+        StringBuilder actualElementTextBuilder = new StringBuilder();
+        List<WebElement> rows = collection.getElements();
+        for (WebElement row : rows) {
+            List<WebElement> cells = row.findElements(By.cssSelector("td"));
+            String formattedRow = String.format(" - %s | %s | %s| %s | %s",
+                    cells.get(1).getText(),
+                    cells.get(2).getText(),
+                    cells.get(3).getText(),
+                    cells.get(4).getText(),
+                    cells.get(5).getText()
+            );
+            actualElementTextBuilder.append(formattedRow).append("\n");
+        }
+
+        String actualElementText = actualElementTextBuilder.toString();
+        StringBuilder expectedSpendsTextBuilder = new StringBuilder();
+        for (SpendJson spend : expectedSpends) {
+            DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+            symbols.setDecimalSeparator('.');
+            DecimalFormat df = new DecimalFormat("#.##",symbols);
+            String formattedExpected = String.format(" - %s | %s | %s| %s | %s",
+                    DateUtils.formatDate(spend.spendDate(), "dd MMM yy"),
+                    df.format(spend.amount()),
+                    spend.currency().name(),
+                    spend.category(),
+                    spend.description()
+            );
+            expectedSpendsTextBuilder.append(formattedExpected).append("\n");
+        }
+        String expectedSpendsText = expectedSpendsTextBuilder.toString();
 
         String message = lastCheckResult.getMessageOrElse(() -> "Spending mismatch");
-        throw new SpendMismatchException(message, collection, Arrays.toString(expectedSpends), actualElementText, explanation, timeoutMs, cause);
+        throw new SpendMismatchException(message, collection, expectedSpendsText, actualElementText, explanation, timeoutMs, cause);
     }
 
     @Override
     public String toString() {
         return "";
     }
+
 }
